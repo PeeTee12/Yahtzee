@@ -1,5 +1,6 @@
 package data;
 
+import java.lang.reflect.Array;
 import java.util.Random;
 
 import org.eclipse.swt.custom.CLabel;
@@ -48,7 +49,7 @@ public class Roll {
         Random r = new Random();
         for(int i = 0; i < 5; i++){
             dice[i] = r.nextInt(6)+1;
-            System.out.print(dice[i] + " ");
+            //System.out.print(dice[i] + " ");
         }
     }
     
@@ -95,7 +96,7 @@ public class Roll {
     public int[] bubbleSort(int[] dice){
         for (int i = 0;i < dice.length - 1;i++){
             for (int j = 0;j < dice.length - i - 1;j++){
-                   if (dice[j] < dice[j+1]){
+                   if (dice[j] > dice[j+1]){
                         int temp = dice[j];
                         dice[j] = dice[j+1];
                         dice[j+1] = temp;
@@ -106,14 +107,19 @@ public class Roll {
     }
     
     public void dicePicture(int[] dice, int i, CLabel label){
-    	System.out.println(dice[i]);
     	switch (dice[i]){
     	case 1: label.setBackground(SWTResourceManager.getImage("One.jpg"));
+    	break;
     	case 2: label.setBackground(SWTResourceManager.getImage("Two.jpg"));
+    	break;
     	case 3: label.setBackground(SWTResourceManager.getImage("Three.jpg"));
+    	break;
     	case 4: label.setBackground(SWTResourceManager.getImage("Four.jpg"));
+    	break;
     	case 5: label.setBackground(SWTResourceManager.getImage("Five.jpg"));
+    	break;
     	case 6: label.setBackground(SWTResourceManager.getImage("Six.jpg"));
+    	break;
     	}
     }
     
@@ -124,7 +130,13 @@ public class Roll {
        roll.rollDice();
        roll.valueCounter(roll.dice);   
        roll.setSorted(roll.bubbleSort(roll.dice));
+       System.out.println(Array.getInt(roll.sorted, 0));
+       System.out.println(Array.getInt(roll.sorted, 1));
+       System.out.println(Array.getInt(roll.sorted, 2));
+       System.out.println(Array.getInt(roll.sorted, 3));
+       System.out.println(Array.getInt(roll.sorted, 4));
        System.out.println();
+       int pole[] = {5,2,3,4,6};
        int ones = game.ones(roll.value);
        int twos = game.twos(roll.value);
        int threes = game.threes(roll.value);

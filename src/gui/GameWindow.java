@@ -346,13 +346,13 @@ public class GameWindow {
 					setButtons(radioFull, labelFull, player);
 				}
 				if (radioSmall.getSelection()){
-					points.setSmall(game.smallStraight(roll.getDice()));
+					points.setSmall(game.smallStraight(roll.getSorted()));
 					labelSmall.setText(String.valueOf(points.getSmall()));
 					points.setLowTotal(points.getSmall());
 					setButtons(radioSmall, labelSmall, player);
 				}
 				if (radioLarge.getSelection()){
-					points.setLarge(game.largeStraight(roll.getDice()));
+					points.setLarge(game.largeStraight(roll.getSorted()));
 					labelLarge.setText(String.valueOf(points.getLarge()));
 					points.setLowTotal(points.getLarge());
 					setButtons(radioLarge, labelLarge, player);
