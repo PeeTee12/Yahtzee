@@ -2,6 +2,9 @@ package data;
 
 import java.util.Random;
 
+import org.eclipse.swt.custom.CLabel;
+import org.eclipse.wb.swt.SWTResourceManager;
+
 /**
  *
  * @author Petr
@@ -102,16 +105,15 @@ public class Roll {
         return dice;
     }
     
-    public void dicePicture(int[] dice){
-    	for (int i = 0;i < 5;i++){
-    		switch (dice[i]){
-    		case 1: ;
-    		case 2: ;
-    		case 3: ;
-    		case 4: ;
-    		case 5: ;
-    		case 6: ;
-    		}
+    public void dicePicture(int[] dice, int i, CLabel label){
+    	System.out.println(dice[i]);
+    	switch (dice[i]){
+    	case 1: label.setBackground(SWTResourceManager.getImage("One.jpg"));
+    	case 2: label.setBackground(SWTResourceManager.getImage("Two.jpg"));
+    	case 3: label.setBackground(SWTResourceManager.getImage("Three.jpg"));
+    	case 4: label.setBackground(SWTResourceManager.getImage("Four.jpg"));
+    	case 5: label.setBackground(SWTResourceManager.getImage("Five.jpg"));
+    	case 6: label.setBackground(SWTResourceManager.getImage("Six.jpg"));
     	}
     }
     
