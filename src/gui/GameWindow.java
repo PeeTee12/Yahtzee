@@ -16,6 +16,7 @@ import data.Game;
 import data.Player;
 import data.Points;
 import data.Roll;
+import client.Client;
 
 public class GameWindow {
 
@@ -26,6 +27,7 @@ public class GameWindow {
 	Points points;
 	Button hodit;
 	Button play;
+	Client client;
 	int rolls = 0;
 	
 	public void setButtons(Button radio, Label label, Player player){
@@ -77,6 +79,7 @@ public class GameWindow {
 		game = new Game();
 		player = new Player();
 		points = new Points();
+		//client = new Client();
 		
 		final Button radio1 = new Button(shlYahtzee, SWT.RADIO);
 		radio1.setBounds(400, 128, 37, 26);
@@ -217,36 +220,60 @@ public class GameWindow {
 		labelC.setAlignment(SWT.CENTER);
 		labelC.setBounds(963, 496, 50, 35);
 		
-		final Label labelPoints = new Label(shlYahtzee, SWT.NONE);
-		labelPoints.setForeground(SWTResourceManager.getColor(255, 255, 255));
-		labelPoints.setBackground(SWTResourceManager.getColor(102, 0, 255));
-		labelPoints.setAlignment(SWT.CENTER);
-		labelPoints.setFont(SWTResourceManager.getFont("MS Reference Sans Serif", 40, SWT.BOLD));
-		labelPoints.setBounds(432, 10, 160, 66);
+		final Label labelPoints1 = new Label(shlYahtzee, SWT.NONE);
+		labelPoints1.setForeground(SWTResourceManager.getColor(255, 255, 255));
+		labelPoints1.setBackground(SWTResourceManager.getColor(87, 55, 171));
+		labelPoints1.setAlignment(SWT.CENTER);
+		labelPoints1.setFont(SWTResourceManager.getFont("Microsoft Sans Serif", 40, SWT.BOLD));
+		labelPoints1.setBounds(315, 10, 160, 66);
+		
+		Label labelPoints2 = new Label(shlYahtzee, SWT.NONE);
+		labelPoints2.setForeground(SWTResourceManager.getColor(255, 255, 255));
+		labelPoints2.setBackground(SWTResourceManager.getColor(87, 55, 171));
+		labelPoints2.setFont(SWTResourceManager.getFont("Microsoft Sans Serif", 40, SWT.BOLD));
+		labelPoints2.setAlignment(SWT.CENTER);
+		labelPoints2.setBounds(550, 10, 160, 66);
+		
+		Label labelNick1 = new Label(shlYahtzee, SWT.NONE);
+		labelNick1.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		labelNick1.setBackground(SWTResourceManager.getColor(87, 55, 171));
+		labelNick1.setFont(SWTResourceManager.getFont("Microsoft Sans Serif", 25, SWT.NORMAL));
+		labelNick1.setBounds(25, 21, 260, 40);
+		
+		Label labelNick2 = new Label(shlYahtzee, SWT.NONE);
+		labelNick2.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		labelNick2.setBackground(SWTResourceManager.getColor(87, 55, 171));
+		labelNick2.setFont(SWTResourceManager.getFont("Microsoft Sans Serif", 25, SWT.NORMAL));
+		labelNick2.setAlignment(SWT.RIGHT);
+		labelNick2.setBounds(739, 21, 260, 40);
 		
 		final Label labelUppSub = new Label(shlYahtzee, SWT.NONE);
 		labelUppSub.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		labelUppSub.setBackground(SWTResourceManager.getColor(87, 55, 171));
 		labelUppSub.setAlignment(SWT.CENTER);
 		labelUppSub.setFont(SWTResourceManager.getFont("Microsoft Sans Serif", 14, SWT.NORMAL));
 		labelUppSub.setBounds(451, 490, 50, 26);
 		
 		Label labelBonus = new Label(shlYahtzee, SWT.NONE);
 		labelBonus.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		labelBonus.setBackground(SWTResourceManager.getColor(87, 55, 171));
 		labelBonus.setAlignment(SWT.CENTER);
 		labelBonus.setFont(SWTResourceManager.getFont("Microsoft Sans Serif", 14, SWT.NORMAL));
 		labelBonus.setBounds(451, 532, 50, 26);
 		
 		final Label labelUppTotal = new Label(shlYahtzee, SWT.NONE);
 		labelUppTotal.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		labelUppTotal.setBackground(SWTResourceManager.getColor(87, 55, 171));
 		labelUppTotal.setAlignment(SWT.CENTER);
 		labelUppTotal.setFont(SWTResourceManager.getFont("Microsoft Sans Serif", 14, SWT.NORMAL));
 		labelUppTotal.setBounds(451, 573, 50, 26);
 		
 		final Label labelLowTotal = new Label(shlYahtzee, SWT.NONE);
 		labelLowTotal.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		labelLowTotal.setFont(SWTResourceManager.getFont("Microsoft Sans Serif", 30, SWT.BOLD));
+		labelLowTotal.setBackground(SWTResourceManager.getColor(87, 55, 171));
+		labelLowTotal.setFont(SWTResourceManager.getFont("Microsoft Sans Serif", 14, SWT.NORMAL));
 		labelLowTotal.setAlignment(SWT.CENTER);
-		labelLowTotal.setBounds(963, 549, 50, 50);
+		labelLowTotal.setBounds(963, 561, 50, 26);
 
 		hodit = new Button(shlYahtzee, SWT.NONE);
 		hodit.setBackground(SWTResourceManager.getColor(75, 0, 130));
@@ -371,7 +398,8 @@ public class GameWindow {
 				}
 				
 				points.setScore(player.getPoints());
-				labelPoints.setText(String.valueOf(points.getScore()));
+				labelPoints1.setText(String.valueOf(points.getScore()));
+				//client.sendMessage(String.valueOf(points.getScore()));
 				labelUppSub.setText(String.valueOf(points.getUppSub()));
 				labelUppTotal.setText(String.valueOf(points.getUppTotal()));
 				labelLowTotal.setText(String.valueOf(points.getLowTotal()));
@@ -387,7 +415,7 @@ public class GameWindow {
 		});
 		
 		CLabel background = new CLabel(shlYahtzee, SWT.NONE);
-		background.setBackground(SWTResourceManager.getImage("Yahtzee.jpg"));
+		background.setBackground(SWTResourceManager.getImage("C:\\Users\\Petr\\Documents\\Git\\Yahtzee\\Yahtzee.jpg"));
 		background.setBounds(0, 0, 1024, 768);
 		background.setText("");
 	}

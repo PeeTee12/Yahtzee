@@ -3,9 +3,9 @@ package client;
 import java.io.*;
 import java.net.*;
 
-class clientTCP {
+public class Client {
 	
-	public clientTCP() {
+	public Client() {
 		
 	}
 	

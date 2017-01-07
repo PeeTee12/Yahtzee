@@ -1,5 +1,7 @@
 package data;
 
+import client.Client;
+
 public class Points {
 	
 	private int ones;
@@ -16,10 +18,13 @@ public class Points {
 	private int yahtzee;
 	private int chance;
 	private int uppSub;
-	private int uppBonus = 35;
+	private final int uppBonus = 35;
 	private int uppTotal;
+	private int counter = 0;
 	private int lowTotal;
 	private int score;
+	
+	Client client;
 	
 	public Points(){
 		
@@ -143,7 +148,12 @@ public class Points {
 	}
 
 	public void setUppTotal() {
-		this.uppTotal = uppSub;
+		if (counter == 0){
+			if (uppSub > 62){
+				this.uppTotal += uppBonus;
+				counter++;
+			}
+		}
 	}
 
 	public int getLowTotal() {
