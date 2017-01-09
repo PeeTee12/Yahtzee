@@ -8,9 +8,13 @@ public class Client {
 	public Client() {
 		
 	}
-	
+	/**
+	 * Metoda pro navázání spojení, vytváří socket.
+	 * @param socket
+	 */
 	public void connect(Socket socket){
 		try {
+			//tahle vec musi byt navazana uz nekde v konstruktoru
 			socket = new Socket("127.0.0.1", 10001);
 			InetAddress address = socket.getInetAddress();
 			System.out.println("Connecting to: " + address.getHostAddress()+" / " + address.getHostName());
@@ -24,7 +28,6 @@ public class Client {
 			output = new PrintWriter(socket.getOutputStream());
 			output.write(message);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		output.flush();
@@ -36,7 +39,6 @@ public class Client {
 			input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			message = input.readLine();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return message;

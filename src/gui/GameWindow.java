@@ -128,7 +128,7 @@ public class GameWindow {
 			
 			@Override
 			public void mouseDown(MouseEvent arg0) {
-				
+				dice1.setEnabled(false);
 				
 			}
 			@Override
@@ -295,8 +295,7 @@ public class GameWindow {
 				rolls++;
 				if (rolls == 3){
 					hodit.setEnabled(false);
-				}
-				
+				}				
 			}
 			
 			@Override

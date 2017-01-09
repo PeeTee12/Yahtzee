@@ -136,7 +136,7 @@ public class Roll {
        System.out.println(Array.getInt(roll.sorted, 3));
        System.out.println(Array.getInt(roll.sorted, 4));
        System.out.println();
-       int pole[] = {5,2,3,4,6};
+       //int pole[] = {5,2,3,4,6};
        int ones = game.ones(roll.value);
        int twos = game.twos(roll.value);
        int threes = game.threes(roll.value);
