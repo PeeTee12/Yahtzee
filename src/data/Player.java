@@ -9,10 +9,11 @@ public class Player {
     private String name;
     private int points;
     private int fullPoints;
+    private int turn;
     private int index;
 
-    public Player() {
-  
+    public Player(String name) {
+    	this.name =  name;
     }
 
     public String getName() {
@@ -37,6 +38,14 @@ public class Player {
 
 	public void setFullPoints(int fullPoints) {
 		this.fullPoints = fullPoints;
+	}
+
+	public int getTurn() {
+		return turn;
+	}
+
+	public void setTurn(int turn) {
+		this.turn = turn;
 	}
 
 	public int getIndex() {

@@ -20,7 +20,7 @@ import client.Client;
 
 public class GameWindow {
 
-	protected Shell shlYahtzee;
+	protected Shell shlYahtzee = new Shell();
 	Roll roll;
 	Game game;
 	Player player;
@@ -28,6 +28,7 @@ public class GameWindow {
 	Button hodit;
 	Button play;
 	Client client;
+	static Login login;
 	int rolls = 0;
 	
 	public void setButtons(Button radio, Label label, Player player){
@@ -47,6 +48,8 @@ public class GameWindow {
 		try {
 			GameWindow window = new GameWindow();
 			window.open();
+			//login = new Login(window.shlYahtzee, SWT.NONE);
+			//login.open();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -58,6 +61,7 @@ public class GameWindow {
 	public void open() {
 		Display display = Display.getDefault();
 		createContents();
+		shlYahtzee.setImage(SWTResourceManager.getImage("C:\\Users\\Petr\\Documents\\Git\\Yahtzee\\Six.jpg"));
 		shlYahtzee.open();
 		shlYahtzee.layout();
 		while (!shlYahtzee.isDisposed()) {
@@ -71,15 +75,21 @@ public class GameWindow {
 	 * Create contents of the window.
 	 */
 	protected void createContents() {
-		shlYahtzee = new Shell();
+		//shlYahtzee = new Shell();
 		shlYahtzee.setMinimumSize(new Point(1041, 807));
 		shlYahtzee.setSize(450, 300);
 		shlYahtzee.setText("Yahtzee");
 		roll = new Roll();
 		game = new Game();
-		player = new Player();
+		player = new Player("PeeTee");
 		points = new Points();
 		//client = new Client();
+		
+		roll.setClicked1(false);
+		roll.setClicked2(false);
+		roll.setClicked3(false);
+		roll.setClicked4(false);
+		roll.setClicked5(false);
 		
 		final Button radio1 = new Button(shlYahtzee, SWT.RADIO);
 		radio1.setBounds(400, 128, 37, 26);
@@ -122,14 +132,50 @@ public class GameWindow {
 		
 		
 		final CLabel dice1 = new CLabel(shlYahtzee, SWT.BORDER);
+		dice1.setAlignment(SWT.CENTER);
+		dice1.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
+		dice1.setFont(SWTResourceManager.getFont("Microsoft Sans Serif", 11, SWT.BOLD));
 		dice1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		dice1.setBounds(225, 614, 80, 80);
-		dice1.addMouseListener(new MouseListener() {
-			
+		dice1.addMouseListener(new MouseListener() {			
 			@Override
 			public void mouseDown(MouseEvent arg0) {
-				dice1.setEnabled(false);
-				
+				if (!roll.isClicked1()){
+					dice1.setText("HOLD");
+					roll.setClicked1(true);
+					System.out.println(roll.isClicked1());
+				}
+				else {
+					dice1.setText("");
+					roll.setClicked1(false);
+				}	
+			}
+			@Override
+			public void mouseUp(MouseEvent arg0) {
+			}
+			@Override
+			public void mouseDoubleClick(MouseEvent arg0) {
+			}
+		});
+			
+		
+		final CLabel dice2 = new CLabel(shlYahtzee, SWT.BORDER);
+		dice2.setAlignment(SWT.CENTER);
+		dice2.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
+		dice2.setFont(SWTResourceManager.getFont("Microsoft Sans Serif", 11, SWT.BOLD));
+		dice2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		dice2.setBounds(347, 614, 80, 80);
+		dice2.addMouseListener(new MouseListener() {			
+			@Override
+			public void mouseDown(MouseEvent arg0) {
+				if (!roll.isClicked2()){
+					dice2.setText("HOLD");
+					roll.setClicked2(true);
+				}
+				else {
+					dice2.setText("");
+					roll.setClicked2(false);
+				}	
 			}
 			@Override
 			public void mouseUp(MouseEvent arg0) {
@@ -139,21 +185,83 @@ public class GameWindow {
 			}
 		});
 		
-		final CLabel dice2 = new CLabel(shlYahtzee, SWT.BORDER);
-		dice2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		dice2.setBounds(347, 614, 80, 80);
-		
 		final CLabel dice3 = new CLabel(shlYahtzee, SWT.BORDER);
+		dice3.setAlignment(SWT.CENTER);
+		dice3.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
+		dice3.setFont(SWTResourceManager.getFont("Microsoft Sans Serif", 11, SWT.BOLD));
 		dice3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		dice3.setBounds(473, 614, 80, 80);
+		dice3.addMouseListener(new MouseListener() {			
+			@Override
+			public void mouseDown(MouseEvent arg0) {
+				if (!roll.isClicked3()){
+					dice3.setText("HOLD");
+					roll.setClicked3(true);
+				}
+				else {
+					dice3.setText("");
+					roll.setClicked3(false);
+				}	
+			}
+			@Override
+			public void mouseUp(MouseEvent arg0) {
+			}
+			@Override
+			public void mouseDoubleClick(MouseEvent arg0) {
+			}
+		});
 		
 		final CLabel dice4 = new CLabel(shlYahtzee, SWT.BORDER);
+		dice4.setAlignment(SWT.CENTER);
+		dice4.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
+		dice4.setFont(SWTResourceManager.getFont("Microsoft Sans Serif", 11, SWT.BOLD));
 		dice4.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		dice4.setBounds(599, 614, 80, 80);
+		dice4.addMouseListener(new MouseListener() {			
+			@Override
+			public void mouseDown(MouseEvent arg0) {
+				if (!roll.isClicked4()){
+					dice4.setText("HOLD");
+					roll.setClicked4(true);
+				}
+				else {
+					dice4.setText("");
+					roll.setClicked4(false);
+				}	
+			}
+			@Override
+			public void mouseUp(MouseEvent arg0) {
+			}
+			@Override
+			public void mouseDoubleClick(MouseEvent arg0) {
+			}
+		});
 		
 		final CLabel dice5 = new CLabel(shlYahtzee, SWT.BORDER);
+		dice5.setAlignment(SWT.CENTER);
+		dice5.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
+		dice5.setFont(SWTResourceManager.getFont("Microsoft Sans Serif", 11, SWT.BOLD));
 		dice5.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		dice5.setBounds(720, 614, 80, 80);
+		dice5.addMouseListener(new MouseListener() {			
+			@Override
+			public void mouseDown(MouseEvent arg0) {
+				if (!roll.isClicked5()){
+					dice5.setText("HOLD");
+					roll.setClicked5(true);
+				}
+				else {
+					dice5.setText("");
+					roll.setClicked5(false);
+				}	
+			}
+			@Override
+			public void mouseUp(MouseEvent arg0) {
+			}
+			@Override
+			public void mouseDoubleClick(MouseEvent arg0) {
+			}
+		});
 		
 		final Label label1 = new Label(shlYahtzee, SWT.NONE);
 		label1.setFont(SWTResourceManager.getFont("Microsoft Sans Serif", 25, SWT.BOLD));
@@ -239,6 +347,7 @@ public class GameWindow {
 		labelNick1.setBackground(SWTResourceManager.getColor(87, 55, 171));
 		labelNick1.setFont(SWTResourceManager.getFont("Microsoft Sans Serif", 25, SWT.NORMAL));
 		labelNick1.setBounds(25, 21, 260, 40);
+		labelNick1.setText(player.getName());
 		
 		Label labelNick2 = new Label(shlYahtzee, SWT.NONE);
 		labelNick2.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
@@ -397,11 +506,24 @@ public class GameWindow {
 				}
 				
 				points.setScore(player.getPoints());
+				player.setTurn(player.getTurn() + 1);
 				labelPoints1.setText(String.valueOf(points.getScore()));
 				//client.sendMessage(String.valueOf(points.getScore()));
 				labelUppSub.setText(String.valueOf(points.getUppSub()));
 				labelUppTotal.setText(String.valueOf(points.getUppTotal()));
 				labelLowTotal.setText(String.valueOf(points.getLowTotal()));
+				
+				roll.setClicked1(false);
+				roll.setClicked2(false);
+				roll.setClicked3(false);
+				roll.setClicked4(false);
+				roll.setClicked5(false);
+				dice1.setText("");
+				dice2.setText("");
+				dice3.setText("");
+				dice4.setText("");
+				dice5.setText("");
+				
 			}
 			
 			@Override

@@ -50,7 +50,7 @@ public class Game {
         int points = 0;
         
         for (int j = 0;j < 6;j++){
-            if (value[j] == 3){
+            if (value[j] >= 3){
             for(int k = 0;k < 5;k++){
                 points += dice[k];
             }
