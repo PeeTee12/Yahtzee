@@ -5,6 +5,8 @@ package data;
  * @author Petr
  */
 public class Game {
+	
+	Roll roll = new Roll();
     
     public Game() {
     
@@ -89,11 +91,12 @@ public class Game {
         return points;
     }
     
-    public int smallStraight(int[] dice){
+    public int smallStraight(int[] sorted){
         int points = 0;
         int temp = 0;
+        roll.bubbleSort(sorted);
         for (int i = 0; i < 4;i++){
-            if ((dice[i+1] - dice[i]) == 1){
+            if ((sorted[i+1] - sorted[i]) == 1){
                 temp++;
             }
         }
@@ -103,11 +106,12 @@ public class Game {
         return points;
     }
     
-    public int largeStraight(int[] dice){
+    public int largeStraight(int[] sorted){
         int points = 0;
-         int temp = 0;
+        int temp = 0;
+        roll.bubbleSort(sorted); 
         for (int i = 0; i < 4;i++){
-            if ((dice[i+1] - dice[i]) == 1){
+            if ((sorted[i+1] - sorted[i]) == 1){
                 temp++;
             }
             else{

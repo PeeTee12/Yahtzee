@@ -31,8 +31,9 @@ public class GameWindow {
 	static Login login;
 	int rolls = 0;
 	
-	public void setButtons(Button radio, Label label, Player player){
+	public void setButtons(Button radio, Label label, Player player, Points points){
 		player.setPoints(Integer.parseInt(label.getText()));
+		points.setScore(player.getPoints());
 		radio.setEnabled(false);
 		radio.setSelection(false);
 		play.setEnabled(false);
@@ -84,7 +85,7 @@ public class GameWindow {
 		player = new Player("PeeTee");
 		points = new Points();
 		//client = new Client();
-		
+		player.setBonus(false);
 		roll.setClicked1(false);
 		roll.setClicked2(false);
 		roll.setClicked3(false);
@@ -363,7 +364,7 @@ public class GameWindow {
 		labelUppSub.setFont(SWTResourceManager.getFont("Microsoft Sans Serif", 14, SWT.NORMAL));
 		labelUppSub.setBounds(451, 490, 50, 26);
 		
-		Label labelBonus = new Label(shlYahtzee, SWT.NONE);
+		final Label labelBonus = new Label(shlYahtzee, SWT.NONE);
 		labelBonus.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		labelBonus.setBackground(SWTResourceManager.getColor(87, 55, 171));
 		labelBonus.setAlignment(SWT.CENTER);
@@ -392,14 +393,13 @@ public class GameWindow {
 		hodit.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseDown(MouseEvent arg0) {
-				roll.rollDice();
+				roll.rollDice2();
 				roll.dicePicture(roll.getDice(), 0, dice1);
 				roll.dicePicture(roll.getDice(), 1, dice2);
 				roll.dicePicture(roll.getDice(), 2, dice3);
 				roll.dicePicture(roll.getDice(), 3, dice4);
 				roll.dicePicture(roll.getDice(), 4, dice5);
 				roll.valueCounter(roll.getDice());
-				roll.setSorted(roll.bubbleSort(roll.getDice()));
 				play.setEnabled(true);
 				rolls++;
 				if (rolls == 3){
@@ -430,83 +430,88 @@ public class GameWindow {
 					points.setOnes(game.ones(roll.getValue()));
 					label1.setText(String.valueOf(points.getOnes()));
 					points.setUppSub(points.getOnes());
-					setButtons(radio1, label1, player);	
+					setButtons(radio1, label1, player, points);	
 				}
 				if (radio2.getSelection()){
 					points.setTwos(game.twos(roll.getValue()));
 					label2.setText(String.valueOf(points.getTwos()));
 					points.setUppSub(points.getTwos());
-					setButtons(radio2, label2, player);
+					setButtons(radio2, label2, player, points);
 				}
 				if (radio3.getSelection()){
 					points.setThrees(game.threes(roll.getValue()));
 					label3.setText(String.valueOf(points.getThrees()));
 					points.setUppSub(points.getThrees());
-					setButtons(radio3, label3, player);
+					setButtons(radio3, label3, player, points);
 				}
 				if (radio4.getSelection()){
 					points.setFours(game.fours(roll.getValue()));
 					label4.setText(String.valueOf(points.getFours()));
 					points.setUppSub(points.getFours());
-					setButtons(radio4, label4, player);
+					setButtons(radio4, label4, player, points);
 				}
 				if (radio5.getSelection()){
 					points.setFives(game.fives(roll.getValue()));
 					label5.setText(String.valueOf(points.getFives()));
 					points.setUppSub(points.getFives());
-					setButtons(radio5, label5, player);
+					setButtons(radio5, label5, player, points);
 				}
 				if (radio6.getSelection()){
 					points.setSixes(game.sixes(roll.getValue()));
 					label6.setText(String.valueOf(points.getSixes()));
 					points.setUppSub(points.getSixes());
-					setButtons(radio6, label6, player);
+					setButtons(radio6, label6, player, points);
 				}
 				if (radio3K.getSelection()){
 					points.setThreeK(game.threeOfAKind(roll.getDice(), roll.getValue()));
 					label3K.setText(String.valueOf(points.getThreeK()));
 					points.setLowTotal(points.getThreeK());
-					setButtons(radio3K, label3K, player);
+					setButtons(radio3K, label3K, player, points);
 				}
 				if (radio4K.getSelection()){
 					points.setFourK(game.fourOfAKind(roll.getDice(), roll.getValue()));
 					label4K.setText(String.valueOf(points.getFourK()));
 					points.setLowTotal(points.getFourK());
-					setButtons(radio4K, label4K, player);
+					setButtons(radio4K, label4K, player, points);
 				}
 				if (radioFull.getSelection()){
 					points.setFull(game.fullHouse(roll.getValue()));
 					labelFull.setText(String.valueOf(points.getFull()));
 					points.setLowTotal(points.getFull());
-					setButtons(radioFull, labelFull, player);
+					setButtons(radioFull, labelFull, player, points);
 				}
 				if (radioSmall.getSelection()){
-					points.setSmall(game.smallStraight(roll.getSorted()));
+					points.setSmall(game.smallStraight(roll.getDice()));
 					labelSmall.setText(String.valueOf(points.getSmall()));
 					points.setLowTotal(points.getSmall());
-					setButtons(radioSmall, labelSmall, player);
+					setButtons(radioSmall, labelSmall, player, points);
 				}
 				if (radioLarge.getSelection()){
-					points.setLarge(game.largeStraight(roll.getSorted()));
+					points.setLarge(game.largeStraight(roll.getDice()));
 					labelLarge.setText(String.valueOf(points.getLarge()));
 					points.setLowTotal(points.getLarge());
-					setButtons(radioLarge, labelLarge, player);
+					setButtons(radioLarge, labelLarge, player, points);
 				}
 				if (radioY.getSelection()){
 					points.setYahtzee(game.yahtzee(roll.getValue()));
 					labelY.setText(String.valueOf(points.getYahtzee()));
 					points.setLowTotal(points.getYahtzee());
-					setButtons(radioY, labelY, player);
+					setButtons(radioY, labelY, player, points);
 				}
 				if (radioC.getSelection()){
 					points.setChance(game.chance(roll.getDice()));
 					labelC.setText(String.valueOf(points.getChance()));
 					points.setLowTotal(points.getChance());
-					setButtons(radioC, labelC, player);
+					setButtons(radioC, labelC, player, points);
 				}
 				
-				points.setScore(player.getPoints());
 				player.setTurn(player.getTurn() + 1);
+				if (points.getUppSub() > 62 && !player.isBonus()){
+					points.setScore(35);
+					points.setUppTotal(points.getUppSub() + 35);
+					labelBonus.setText("35");
+					player.setBonus(true);
+				}
 				labelPoints1.setText(String.valueOf(points.getScore()));
 				//client.sendMessage(String.valueOf(points.getScore()));
 				labelUppSub.setText(String.valueOf(points.getUppSub()));

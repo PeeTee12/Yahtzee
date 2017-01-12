@@ -18,9 +18,7 @@ public class Points {
 	private int yahtzee;
 	private int chance;
 	private int uppSub;
-	private final int uppBonus = 35;
 	private int uppTotal;
-	private int counter = 0;
 	private int lowTotal;
 	private int score;
 	
@@ -147,13 +145,8 @@ public class Points {
 		return uppTotal;
 	}
 
-	public void setUppTotal() {
-		if (counter == 0){
-			if (uppSub > 62){
-				this.uppTotal += uppBonus;
-				counter++;
-			}
-		}
+	public void setUppTotal(int uppTotal) {
+		this.uppTotal = uppTotal;
 	}
 
 	public int getLowTotal() {

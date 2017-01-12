@@ -13,10 +13,10 @@ public class Roll {
     
     private int[] dice = new int[5];
     private int[] value;
-    private int[] sorted;
+    private int[] sorted = new int[5];
     private boolean clicked1;
-    private boolean clicked2;
-    private boolean clicked3;
+    private boolean clicked2 = true;
+    private boolean clicked3 = true;
     private boolean clicked4;
     private boolean clicked5;
 
@@ -88,50 +88,68 @@ public class Roll {
 		
     }
     
-    public int[] rollDice(){
-        //dice = new int[5];
+    public void rollDice(){
         Random r = new Random();
-        System.out.println(clicked1 + " " + clicked2 + " " + clicked3 + " " + clicked4 + " " + clicked5);
-        for(int i = 0; i < 5; i++){
-        	switch(i){
-        	case 0: 
-        		if (!clicked1){
-        			dice[0] = r.nextInt(6)+1;
-        			break;
-        		} else{
-        			continue;
-        		}
-        	case 1:
-        		if (!clicked2){
-        			dice[1] = r.nextInt(6)+1;
-        		}
-        		break;
-        	case 2:
-        		if (!clicked3){
-        			dice[2] = r.nextInt(6)+1;
-        		}
-        		break;
-        	case 3:
-        		if (!clicked4){
-        			dice[3] = r.nextInt(6)+1;
-        		}
-        		break;
-        	case 4:
-        		if (!clicked5){
-        			dice[4] = r.nextInt(6)+1;
-        		}
-        		break;
-        }
-            System.out.print(dice[i] + " ");
-            System.out.println("i = " + i);
-        }
-        return dice;
+        /*for(int i = 0; i < 5; i++){
+        	dice[i] = r.nextInt(6)+1;
+        	System.out.print(dice[i] + " ");*/
+        if(!clicked1){
+    		dice[0] = r.nextInt(6)+1;
+    	}
+    	if(!clicked2){
+    		dice[1] = r.nextInt(6)+1;
+    	}
+    	if(!clicked3){
+    		dice[2] = r.nextInt(6)+1;
+    	}
+    	if(!clicked4){
+    		dice[3] = r.nextInt(6)+1;
+    	}
+    	if(!clicked5){
+    		dice[4] = r.nextInt(6)+1;
+    	}
+    	sorted = dice;
     }
     
-    public int[] rollDice2(int[] dice){
-    	dice[0] = 6;
-    	System.out.println(dice[0] + " " + dice[1] + " " + dice[2]);
-    	return dice;
+    public void rollDice2(){
+    	int[] dice2 = new int[5];
+    	Random r = new Random();
+    	if(!clicked1){
+    		dice2[0] = r.nextInt(6)+1;
+    	}
+    	else {
+    		dice2[0] = dice[0];
+    	}
+    	if(!clicked2){
+    		dice2[1] = r.nextInt(6)+1;
+    	}
+    	else {
+    		dice2[1] = dice[1];
+    	}
+    	if(!clicked3){
+    		dice2[2] = r.nextInt(6)+1;
+    	}
+    	else {
+    		dice2[2] = dice[2];
+    	}
+    	if(!clicked4){
+    		dice2[3] = r.nextInt(6)+1;
+    	}
+    	else {
+    		dice2[3] = dice[3];
+    	}
+    	if(!clicked5){
+    		dice2[4] = r.nextInt(6)+1;
+    	}
+    	else {
+    		dice2[4] = dice[4];
+    	}
+    	System.out.println("Pole 1: " + dice[0] + " " + dice[1] + " " + dice[2] + " " + dice[3] + " " + dice[4]);
+    	dice = dice2;
+    	sorted = dice2;
+    	System.out.println("Sorted 1: " + sorted[0] + " " + sorted[1] + " " + sorted[2] + " " + sorted[3] + " " + sorted[4]);
+    	System.out.println("Pole 2: " + dice2[0] + " " + dice2[1] + " " + dice2[2] + " " + dice2[3] + " " + dice2[4]);
+    	System.out.println("Pole 1: " + dice[0] + " " + dice[1] + " " + dice[2] + " " + dice[3] + " " + dice[4]);
     }
     
     public int[] valueCounter(int[] dice){
@@ -174,17 +192,17 @@ public class Roll {
         return value;
     }
     
-    public int[] bubbleSort(int[] dice){
-        for (int i = 0;i < dice.length - 1;i++){
-            for (int j = 0;j < dice.length - i - 1;j++){
-                   if (dice[j] > dice[j+1]){
-                        int temp = dice[j];
-                        dice[j] = dice[j+1];
-                        dice[j+1] = temp;
-                    }
+    public int[] bubbleSort(int[] sorted){
+        for (int i = 0;i < sorted.length - 1;i++){
+            for (int j = 0;j < sorted.length - i - 1;j++){
+            	if (sorted[j] > sorted[j+1]){
+            		int temp = sorted[j];
+            		sorted[j] = sorted[j+1];
+                    sorted[j+1] = temp;
+                }
             }
         }
-        return dice;
+        return sorted;
     }
     
     public void dicePicture(int[] dice, int i, CLabel label){
@@ -208,11 +226,13 @@ public class Roll {
        
        Roll roll = new Roll();
        Game game = new Game();
-       roll.rollDice();
-       roll.rollDice2(roll.dice);
+       for (int i = 0; i <3; i++){
+       roll.rollDice2();
        roll.valueCounter(roll.dice);   
-       roll.setSorted(roll.bubbleSort(roll.dice));
-       System.out.println();
+       //roll.bubbleSort();
+       System.out.println("Sorted 1: " + roll.sorted[0] + " " + roll.sorted[1] + " " + roll.sorted[2] + " " + roll.sorted[3] + " " + roll.sorted[4]);
+       System.out.println("Pole 1: " + roll.dice[0] + " " + roll.dice[1] + " " + roll.dice[2] + " " + roll.dice[3] + " " + roll.dice[4]);
+       //System.out.println();
        int ones = game.ones(roll.value);
        int twos = game.twos(roll.value);
        int threes = game.threes(roll.value);
@@ -222,8 +242,8 @@ public class Roll {
        int threeK = game.threeOfAKind(roll.dice, roll.value);
        int fourK = game.fourOfAKind(roll.dice, roll.value);
        int fullH = game.fullHouse(roll.value);
-       int small = game.smallStraight(roll.sorted);
-       int large = game.largeStraight(roll.sorted);
+       int small = game.smallStraight(roll.dice);
+       int large = game.largeStraight(roll.dice);
        int yahtzee = game.yahtzee(roll.value);
        int chance = game.chance(roll.dice);
        
@@ -240,6 +260,7 @@ public class Roll {
        System.out.println("Large Straight: " + large);
        System.out.println("YAHTZEE: " + yahtzee);
        System.out.println("Chance: " + chance);
+       }
        
    } 
 

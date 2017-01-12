@@ -9,6 +9,7 @@ public class Player {
     private String name;
     private int points;
     private int fullPoints;
+    private boolean bonus;
     private int turn;
     private int index;
 
@@ -38,6 +39,14 @@ public class Player {
 
 	public void setFullPoints(int fullPoints) {
 		this.fullPoints = fullPoints;
+	}
+
+	public boolean isBonus() {
+		return bonus;
+	}
+
+	public void setBonus(boolean bonus) {
+		this.bonus = bonus;
 	}
 
 	public int getTurn() {
