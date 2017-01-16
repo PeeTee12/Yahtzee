@@ -89,29 +89,6 @@ public class Roll {
     }
     
     public void rollDice(){
-        Random r = new Random();
-        /*for(int i = 0; i < 5; i++){
-        	dice[i] = r.nextInt(6)+1;
-        	System.out.print(dice[i] + " ");*/
-        if(!clicked1){
-    		dice[0] = r.nextInt(6)+1;
-    	}
-    	if(!clicked2){
-    		dice[1] = r.nextInt(6)+1;
-    	}
-    	if(!clicked3){
-    		dice[2] = r.nextInt(6)+1;
-    	}
-    	if(!clicked4){
-    		dice[3] = r.nextInt(6)+1;
-    	}
-    	if(!clicked5){
-    		dice[4] = r.nextInt(6)+1;
-    	}
-    	sorted = dice;
-    }
-    
-    public void rollDice2(){
     	int[] dice2 = new int[5];
     	Random r = new Random();
     	if(!clicked1){
@@ -227,7 +204,7 @@ public class Roll {
        Roll roll = new Roll();
        Game game = new Game();
        for (int i = 0; i <3; i++){
-       roll.rollDice2();
+       roll.rollDice();
        roll.valueCounter(roll.dice);   
        //roll.bubbleSort();
        System.out.println("Sorted 1: " + roll.sorted[0] + " " + roll.sorted[1] + " " + roll.sorted[2] + " " + roll.sorted[3] + " " + roll.sorted[4]);

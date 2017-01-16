@@ -31,6 +31,13 @@ public class GameWindow {
 	static Login login;
 	int rolls = 0;
 	
+	/**
+	 * Metoda pro nastavení bodù do promìnných, deaktivace a aktivace tlaèítek, nastavení hodù na 0.
+	 * @param radio Radio button, který se ovládá.
+	 * @param label Popisek, který se ovládá.
+	 * @param player Hráè, kterému se nastavují body.
+	 * @param points Body, které se nastavují.
+	 */
 	public void setButtons(Button radio, Label label, Player player, Points points){
 		player.setPoints(Integer.parseInt(label.getText()));
 		points.setScore(player.getPoints());
@@ -42,22 +49,24 @@ public class GameWindow {
 	}
 
 	/**
-	 * Launch the application.
+	 * Spuštìní aplikace.
 	 * @param args
+	 * @wbp.parser.entryPoint
 	 */
 	public static void main(String[] args) {
 		try {
 			GameWindow window = new GameWindow();
-			window.open();
-			//login = new Login(window.shlYahtzee, SWT.NONE);
-			//login.open();
+			//window.open();
+			login = new Login(window.shlYahtzee, SWT.NONE);
+			login.open();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	/**
-	 * Open the window.
+	 * Otevøení okna.
+	 * @wbp.parser.entryPoint
 	 */
 	public void open() {
 		Display display = Display.getDefault();
@@ -73,7 +82,7 @@ public class GameWindow {
 	}
 
 	/**
-	 * Create contents of the window.
+	 * Vytvoøení obsahu okna.
 	 */
 	protected void createContents() {
 		//shlYahtzee = new Shell();
@@ -82,7 +91,7 @@ public class GameWindow {
 		shlYahtzee.setText("Yahtzee");
 		roll = new Roll();
 		game = new Game();
-		player = new Player("PeeTee");
+		player = new Player(login.getName());
 		points = new Points();
 		//client = new Client();
 		player.setBonus(false);
@@ -384,6 +393,11 @@ public class GameWindow {
 		labelLowTotal.setFont(SWTResourceManager.getFont("Microsoft Sans Serif", 14, SWT.NORMAL));
 		labelLowTotal.setAlignment(SWT.CENTER);
 		labelLowTotal.setBounds(963, 561, 50, 26);
+		
+		Label labelMessage = new Label(shlYahtzee, SWT.NONE);
+		labelMessage.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		labelMessage.setFont(SWTResourceManager.getFont("Microsoft Sans Serif", 15, SWT.NORMAL));
+		labelMessage.setBounds(10, 725, 437, 26);
 
 		hodit = new Button(shlYahtzee, SWT.NONE);
 		hodit.setBackground(SWTResourceManager.getColor(75, 0, 130));
@@ -393,7 +407,7 @@ public class GameWindow {
 		hodit.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseDown(MouseEvent arg0) {
-				roll.rollDice2();
+				roll.rollDice();
 				roll.dicePicture(roll.getDice(), 0, dice1);
 				roll.dicePicture(roll.getDice(), 1, dice2);
 				roll.dicePicture(roll.getDice(), 2, dice3);
