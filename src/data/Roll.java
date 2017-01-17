@@ -5,6 +5,8 @@ import java.util.Random;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.wb.swt.SWTResourceManager;
 
+import gui.GameWindow;
+
 /**
  *
  * @author Petr
@@ -121,12 +123,12 @@ public class Roll {
     	else {
     		dice2[4] = dice[4];
     	}
-    	System.out.println("Pole 1: " + dice[0] + " " + dice[1] + " " + dice[2] + " " + dice[3] + " " + dice[4]);
+    	//System.out.println("Pole 1: " + dice[0] + " " + dice[1] + " " + dice[2] + " " + dice[3] + " " + dice[4]);
     	dice = dice2;
     	sorted = dice2;
-    	System.out.println("Sorted 1: " + sorted[0] + " " + sorted[1] + " " + sorted[2] + " " + sorted[3] + " " + sorted[4]);
-    	System.out.println("Pole 2: " + dice2[0] + " " + dice2[1] + " " + dice2[2] + " " + dice2[3] + " " + dice2[4]);
-    	System.out.println("Pole 1: " + dice[0] + " " + dice[1] + " " + dice[2] + " " + dice[3] + " " + dice[4]);
+    	//System.out.println("Sorted 1: " + sorted[0] + " " + sorted[1] + " " + sorted[2] + " " + sorted[3] + " " + sorted[4]);
+    	//System.out.println("Pole 2: " + dice2[0] + " " + dice2[1] + " " + dice2[2] + " " + dice2[3] + " " + dice2[4]);
+    	//System.out.println("Pole 1: " + dice[0] + " " + dice[1] + " " + dice[2] + " " + dice[3] + " " + dice[4]);
     }
     
     public int[] valueCounter(int[] dice){
@@ -184,17 +186,17 @@ public class Roll {
     
     public void dicePicture(int[] dice, int i, CLabel label){
     	switch (dice[i]){
-    	case 1: label.setBackground(SWTResourceManager.getImage("One.jpg"));
+    	case 1: label.setBackground(SWTResourceManager.getImage(GameWindow.class, "/One.jpg"));
     	break;
-    	case 2: label.setBackground(SWTResourceManager.getImage("Two.jpg"));
+    	case 2: label.setBackground(SWTResourceManager.getImage(GameWindow.class, "/Two.jpg"));
     	break;
-    	case 3: label.setBackground(SWTResourceManager.getImage("Three.jpg"));
+    	case 3: label.setBackground(SWTResourceManager.getImage(GameWindow.class, "/Three.jpg"));
     	break;
-    	case 4: label.setBackground(SWTResourceManager.getImage("Four.jpg"));
+    	case 4: label.setBackground(SWTResourceManager.getImage(GameWindow.class, "/Four.jpg"));
     	break;
-    	case 5: label.setBackground(SWTResourceManager.getImage("Five.jpg"));
+    	case 5: label.setBackground(SWTResourceManager.getImage(GameWindow.class, "/Five.jpg"));
     	break;
-    	case 6: label.setBackground(SWTResourceManager.getImage("Six.jpg"));
+    	case 6: label.setBackground(SWTResourceManager.getImage(GameWindow.class, "/Six.jpg"));
     	break;
     	}
     }

@@ -26,10 +26,7 @@ public class Client {
 		} catch (IOException e) {
 			System.out.println("Server not found! Please try again later...");
 			label.setText(error);
-		} /*catch (NullPointerException n) {
-			System.out.println("Server not found! Please try again later...");
-			//label.setText(error);
-		}*/
+		}
 	}
 	
 	public void sendMessage(String message, Label label, String error){

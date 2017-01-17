@@ -30,15 +30,19 @@ public class GameWindow {
 	Client client;
 	static Login login;
 	int rolls = 0;
+	private final String serverError = "Server not found! Please try again later...";
+	private String message;
 	
 	/**
-	 * Metoda pro nastavení bodù do promìnných, deaktivace a aktivace tlaèítek, nastavení hodù na 0.
+	 * Metoda pro nastavení bodù do promìnných, deaktivace a aktivace tlaèítek, nastavení hodù na 0 a odeslání zprávy na server.
 	 * @param radio Radio button, který se ovládá.
 	 * @param label Popisek, který se ovládá.
 	 * @param player Hráè, kterému se nastavují body.
 	 * @param points Body, které se nastavují.
 	 */
-	public void setButtons(Button radio, Label label, Player player, Points points){
+	
+	public void setPoints(Points points, Player player, Label label,  Label labelMessage, Button radio, int playedPoints){
+		label.setText(String.valueOf(playedPoints));
 		player.setPoints(Integer.parseInt(label.getText()));
 		points.setScore(player.getPoints());
 		radio.setEnabled(false);
@@ -46,6 +50,44 @@ public class GameWindow {
 		play.setEnabled(false);
 		rolls = 0;
 		hodit.setEnabled(true);
+		labelMessage.setText(message);
+		//client.sendMessage(message, labelMessage, serverError);
+	}
+	
+	/**
+	 * Metoda pro èekání až pøijde hráè na øadu.
+	 * @param player
+	 * @param hodit
+	 * @param play
+	 * @param dice1
+	 * @param dice2
+	 * @param dice3
+	 * @param dice4
+	 * @param dice5
+	 * @param label
+	 */
+	public void waitForTurn(Player player, Button hodit, Button play, CLabel dice1, CLabel dice2, CLabel dice3, CLabel dice4, CLabel dice5, Label label){
+		if(!player.isMyTurn()){
+			hodit.setVisible(false);
+			play.setVisible(false);
+			dice1.setVisible(false);
+			dice2.setVisible(false);
+			dice3.setVisible(false);
+			dice4.setVisible(false);
+			dice5.setVisible(false);
+			label.setVisible(true);
+		}
+		else {
+			hodit.setVisible(true);
+			play.setVisible(true);
+			dice1.setVisible(true);
+			dice2.setVisible(true);
+			dice3.setVisible(true);
+			dice4.setVisible(true);
+			dice5.setVisible(true);
+			label.setVisible(false);
+			player.setTurn(player.getTurn() + 1);
+		}
 	}
 
 	/**
@@ -56,9 +98,9 @@ public class GameWindow {
 	public static void main(String[] args) {
 		try {
 			GameWindow window = new GameWindow();
-			//window.open();
-			login = new Login(window.shlYahtzee, SWT.NONE);
-			login.open();
+			window.open();
+			//login = new Login(window.shlYahtzee, SWT.NONE);
+			//login.open();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -71,7 +113,7 @@ public class GameWindow {
 	public void open() {
 		Display display = Display.getDefault();
 		createContents();
-		shlYahtzee.setImage(SWTResourceManager.getImage("C:\\Users\\Petr\\Documents\\Git\\Yahtzee\\Six.jpg"));
+		shlYahtzee.setImage(SWTResourceManager.getImage("Six.jpg"));
 		shlYahtzee.open();
 		shlYahtzee.layout();
 		while (!shlYahtzee.isDisposed()) {
@@ -91,9 +133,9 @@ public class GameWindow {
 		shlYahtzee.setText("Yahtzee");
 		roll = new Roll();
 		game = new Game();
-		player = new Player(login.getName());
+		player = new Player("PeeTee");
 		points = new Points();
-		//client = new Client();
+		client = new Client();
 		player.setBonus(false);
 		roll.setClicked1(false);
 		roll.setClicked2(false);
@@ -153,7 +195,6 @@ public class GameWindow {
 				if (!roll.isClicked1()){
 					dice1.setText("HOLD");
 					roll.setClicked1(true);
-					System.out.println(roll.isClicked1());
 				}
 				else {
 					dice1.setText("");
@@ -394,10 +435,17 @@ public class GameWindow {
 		labelLowTotal.setAlignment(SWT.CENTER);
 		labelLowTotal.setBounds(963, 561, 50, 26);
 		
-		Label labelMessage = new Label(shlYahtzee, SWT.NONE);
+		final Label labelMessage = new Label(shlYahtzee, SWT.NONE);
 		labelMessage.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		labelMessage.setFont(SWTResourceManager.getFont("Microsoft Sans Serif", 15, SWT.NORMAL));
-		labelMessage.setBounds(10, 725, 437, 26);
+		labelMessage.setBounds(10, 725, 940, 26);
+		
+		final Label labelTurn = new Label(shlYahtzee, SWT.NONE);
+		labelTurn.setBackground(SWTResourceManager.getColor(250, 229, 108));
+		labelTurn.setAlignment(SWT.CENTER);
+		labelTurn.setFont(SWTResourceManager.getFont("Microsoft Sans Serif", 20, SWT.NORMAL));
+		labelTurn.setBounds(100, 635, 824, 40);
+		labelTurn.setVisible(false);
 
 		hodit = new Button(shlYahtzee, SWT.NONE);
 		hodit.setBackground(SWTResourceManager.getColor(75, 0, 130));
@@ -442,81 +490,81 @@ public class GameWindow {
 			public void mouseDown(MouseEvent arg0) {
 				if (radio1.getSelection()){
 					points.setOnes(game.ones(roll.getValue()));
-					label1.setText(String.valueOf(points.getOnes()));
 					points.setUppSub(points.getOnes());
-					setButtons(radio1, label1, player, points);	
+					message = player.getName() + " played " + points.getOnes() + " on Ones.";
+					setPoints(points, player, label1, labelMessage, radio1, points.getOnes());
 				}
 				if (radio2.getSelection()){
 					points.setTwos(game.twos(roll.getValue()));
-					label2.setText(String.valueOf(points.getTwos()));
 					points.setUppSub(points.getTwos());
-					setButtons(radio2, label2, player, points);
+					message = player.getName() + " played " + points.getTwos() + " on Twos.";
+					setPoints(points, player, label2, labelMessage, radio2, points.getTwos());
 				}
 				if (radio3.getSelection()){
 					points.setThrees(game.threes(roll.getValue()));
-					label3.setText(String.valueOf(points.getThrees()));
 					points.setUppSub(points.getThrees());
-					setButtons(radio3, label3, player, points);
+					message = player.getName() + " played " + points.getThrees() + " on Threes.";
+					setPoints(points, player, label3, labelMessage, radio3, points.getThrees());
 				}
 				if (radio4.getSelection()){
 					points.setFours(game.fours(roll.getValue()));
-					label4.setText(String.valueOf(points.getFours()));
 					points.setUppSub(points.getFours());
-					setButtons(radio4, label4, player, points);
+					message = player.getName() + " played " + points.getFours() + " on Fours.";
+					setPoints(points, player, label4, labelMessage, radio4, points.getFours());
 				}
 				if (radio5.getSelection()){
 					points.setFives(game.fives(roll.getValue()));
-					label5.setText(String.valueOf(points.getFives()));
 					points.setUppSub(points.getFives());
-					setButtons(radio5, label5, player, points);
+					message = player.getName() + " played " + points.getFives() + " on Fives.";
+					setPoints(points, player, label5, labelMessage, radio5, points.getFives());
 				}
 				if (radio6.getSelection()){
 					points.setSixes(game.sixes(roll.getValue()));
-					label6.setText(String.valueOf(points.getSixes()));
 					points.setUppSub(points.getSixes());
-					setButtons(radio6, label6, player, points);
+					message = player.getName() + " played " + points.getSixes() + " on Sixes.";
+					setPoints(points, player, label6, labelMessage, radio6, points.getSixes());
 				}
 				if (radio3K.getSelection()){
 					points.setThreeK(game.threeOfAKind(roll.getDice(), roll.getValue()));
-					label3K.setText(String.valueOf(points.getThreeK()));
 					points.setLowTotal(points.getThreeK());
-					setButtons(radio3K, label3K, player, points);
+					message = player.getName() + " played " + points.getThreeK() + " on 3 of a Kind.";
+					setPoints(points, player, label3K, labelMessage, radio3K, points.getThreeK());
 				}
 				if (radio4K.getSelection()){
 					points.setFourK(game.fourOfAKind(roll.getDice(), roll.getValue()));
-					label4K.setText(String.valueOf(points.getFourK()));
 					points.setLowTotal(points.getFourK());
-					setButtons(radio4K, label4K, player, points);
+					message = player.getName() + " played " + points.getFourK() + " on 4 of a Kind.";
+					setPoints(points, player, label4K, labelMessage, radio4K, points.getFourK());
 				}
 				if (radioFull.getSelection()){
 					points.setFull(game.fullHouse(roll.getValue()));
-					labelFull.setText(String.valueOf(points.getFull()));
 					points.setLowTotal(points.getFull());
-					setButtons(radioFull, labelFull, player, points);
+					message = player.getName() + " played " + points.getFull() + " on Full House.";
+					setPoints(points, player, labelFull, labelMessage, radioFull, points.getFull());
 				}
 				if (radioSmall.getSelection()){
 					points.setSmall(game.smallStraight(roll.getDice()));
-					labelSmall.setText(String.valueOf(points.getSmall()));
 					points.setLowTotal(points.getSmall());
-					setButtons(radioSmall, labelSmall, player, points);
+					message = player.getName() + " played " + points.getSmall() + " on Small Straight.";
+					setPoints(points, player, labelSmall, labelMessage, radioSmall, points.getSmall());
 				}
 				if (radioLarge.getSelection()){
 					points.setLarge(game.largeStraight(roll.getDice()));
-					labelLarge.setText(String.valueOf(points.getLarge()));
 					points.setLowTotal(points.getLarge());
-					setButtons(radioLarge, labelLarge, player, points);
+					message = player.getName() + " played " + points.getLarge() + " on Large Straight.";
+					setPoints(points, player, labelLarge, labelMessage, radioLarge, points.getLarge());
 				}
 				if (radioY.getSelection()){
 					points.setYahtzee(game.yahtzee(roll.getValue()));
-					labelY.setText(String.valueOf(points.getYahtzee()));
 					points.setLowTotal(points.getYahtzee());
-					setButtons(radioY, labelY, player, points);
+					message = player.getName() + " played " + points.getYahtzee() + " on Yahtzee.";
+					setPoints(points, player, labelY, labelMessage, radioY, points.getYahtzee());
 				}
 				if (radioC.getSelection()){
 					points.setChance(game.chance(roll.getDice()));
-					labelC.setText(String.valueOf(points.getChance()));
 					points.setLowTotal(points.getChance());
-					setButtons(radioC, labelC, player, points);
+					message = player.getName() + " played " + points.getChance() + " on Chance.";
+					setPoints(points, player, labelC, labelMessage, radioC, points.getChance());
 				}
 				
 				player.setTurn(player.getTurn() + 1);
@@ -525,9 +573,15 @@ public class GameWindow {
 					points.setUppTotal(points.getUppSub() + 35);
 					labelBonus.setText("35");
 					player.setBonus(true);
+					message += " " + player.getName() + " just achieved bonus 35 points.";
+					labelMessage.setText(message);
 				}
+				
+				if (labelMessage.getText() == serverError){
+					return;
+				}				
 				labelPoints1.setText(String.valueOf(points.getScore()));
-				//client.sendMessage(String.valueOf(points.getScore()));
+				//client.sendMessage(String.valueOf(points.getScore()), labelMessage, serverError);
 				labelUppSub.setText(String.valueOf(points.getUppSub()));
 				labelUppTotal.setText(String.valueOf(points.getUppTotal()));
 				labelLowTotal.setText(String.valueOf(points.getLowTotal()));
@@ -543,6 +597,9 @@ public class GameWindow {
 				dice4.setText("");
 				dice5.setText("");
 				
+				/*player.setMyTurn(false);
+				waitForTurn(player, hodit, play, dice1, dice2, dice3, dice4, dice5, labelTurn);*/
+				
 			}
 			
 			@Override
@@ -555,7 +612,7 @@ public class GameWindow {
 		});
 		
 		CLabel background = new CLabel(shlYahtzee, SWT.NONE);
-		background.setBackground(SWTResourceManager.getImage("C:\\Users\\Petr\\Documents\\Git\\Yahtzee\\Yahtzee.jpg"));
+		background.setBackground(SWTResourceManager.getImage(GameWindow.class, "/Yahtzee.jpg"));
 		background.setBounds(0, 0, 1024, 768);
 		background.setText("");
 	}

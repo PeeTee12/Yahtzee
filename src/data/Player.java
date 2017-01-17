@@ -12,6 +12,7 @@ public class Player {
     private boolean bonus;
     private int turn;
     private int index;
+    private boolean myTurn;
 
     public Player(String name) {
     	this.name =  name;
@@ -64,6 +65,15 @@ public class Player {
     public void setIndex(int index) {
         this.index = index;
     }
+
+	public boolean isMyTurn() {
+		return myTurn;
+	}
+
+	public void setMyTurn(boolean myTurn) {
+		this.myTurn = myTurn;
+	}
+    
     
     
     

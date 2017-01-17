@@ -7,8 +7,6 @@ import org.eclipse.swt.widgets.Text;
 
 import client.Client;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ControlEvent;
-import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.widgets.Button;
@@ -98,6 +96,34 @@ public class Login extends Dialog {
 		Button buttonJoin = new Button(shellLogin, SWT.NONE);
 		buttonJoin.setBounds(77, 188, 75, 25);
 		buttonJoin.setText("Join Game");
+		buttonJoin.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseDown(MouseEvent arg0) {
+				name = textNick.getText();
+				if (textNick.getText() == "") {
+					labelErrorNick.setText(nameError);
+					return;
+				}
+				else {
+					labelErrorNick.setText("");
+				}
+				server = textServer.getText();
+				if (textServer.getText() == "") {
+					labelErrorServer.setText(emptyServerError);
+					return;
+				}
+				else {
+					labelErrorServer.setText("");
+				}
+			}	
+			@Override
+			public void mouseUp(MouseEvent arg0) {
+			}
+			@Override
+			public void mouseDoubleClick(MouseEvent arg0) {
+			}
+		});
 		
 		Button buttonCreate = new Button(shellLogin, SWT.NONE);
 		buttonCreate.setBounds(226, 188, 116, 25);
@@ -138,20 +164,6 @@ public class Login extends Dialog {
 			}
 			@Override
 			public void mouseDoubleClick(MouseEvent arg0) {
-			}
-		});
-		buttonCreate.addControlListener(new ControlListener() {
-			
-			@Override
-			public void controlResized(ControlEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void controlMoved(ControlEvent arg0) {
-				// TODO Auto-generated method stub
-				
 			}
 		});
 
