@@ -40,8 +40,9 @@ public class Login extends Dialog {
 	 * @param parent
 	 * @param style
 	 */
-	public Login(Shell parent, int style) {
+	public Login(Shell parent, int style, Client client) {
 		super(parent, style);
+		this.client = client;
 	}
 
 	/**
@@ -69,7 +70,7 @@ public class Login extends Dialog {
 		shellLogin.setSize(450, 300);
 		shellLogin.setText("Login to Yahtzee");
 		shellLogin.setLayout(null);
-		client = new Client();
+		//client = new Client();
 		
 		textNick = new Text(shellLogin, SWT.BORDER);
 		textNick.setBounds(77, 62, 265, 21);
@@ -153,7 +154,7 @@ public class Login extends Dialog {
 					return;
 				}
 			
-				//client.sendMessage(name, labelErrorNick, "Nickname already used!");
+				client.sendMessage(name, labelErrorNick, "Nickname already used!");
 				GameWindow window = new GameWindow();
 				shellLogin.close();
 				window.open();

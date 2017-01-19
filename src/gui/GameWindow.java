@@ -27,7 +27,7 @@ public class GameWindow {
 	Points points;
 	Button hodit;
 	Button play;
-	Client client;
+	static Client client;
 	static Login login;
 	int rolls = 0;
 	private final String serverError = "Server not found! Please try again later...";
@@ -41,7 +41,7 @@ public class GameWindow {
 	 * @param points Body, které se nastavují.
 	 */
 	
-	public void setPoints(Points points, Player player, Label label,  Label labelMessage, Button radio, int playedPoints){
+	public void setPoints(Points points, Player player, Client client, Label label,  Label labelMessage, Button radio, int playedPoints){
 		label.setText(String.valueOf(playedPoints));
 		player.setPoints(Integer.parseInt(label.getText()));
 		points.setScore(player.getPoints());
@@ -51,7 +51,7 @@ public class GameWindow {
 		rolls = 0;
 		hodit.setEnabled(true);
 		labelMessage.setText(message);
-		//client.sendMessage(message, labelMessage, serverError);
+		client.sendMessage(message, labelMessage, serverError);
 	}
 	
 	/**
@@ -98,9 +98,10 @@ public class GameWindow {
 	public static void main(String[] args) {
 		try {
 			GameWindow window = new GameWindow();
-			window.open();
-			//login = new Login(window.shlYahtzee, SWT.NONE);
-			//login.open();
+			client = new Client();
+			//window.open();
+			login = new Login(window.shlYahtzee, SWT.NONE, client);
+			login.open();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -133,9 +134,9 @@ public class GameWindow {
 		shlYahtzee.setText("Yahtzee");
 		roll = new Roll();
 		game = new Game();
-		player = new Player("PeeTee");
+		player = new Player(login.getName());
 		points = new Points();
-		client = new Client();
+		//client = new Client();
 		player.setBonus(false);
 		roll.setClicked1(false);
 		roll.setClicked2(false);
@@ -492,79 +493,79 @@ public class GameWindow {
 					points.setOnes(game.ones(roll.getValue()));
 					points.setUppSub(points.getOnes());
 					message = player.getName() + " played " + points.getOnes() + " on Ones.";
-					setPoints(points, player, label1, labelMessage, radio1, points.getOnes());
+					setPoints(points, player, client, label1, labelMessage, radio1, points.getOnes());
 				}
 				if (radio2.getSelection()){
 					points.setTwos(game.twos(roll.getValue()));
 					points.setUppSub(points.getTwos());
 					message = player.getName() + " played " + points.getTwos() + " on Twos.";
-					setPoints(points, player, label2, labelMessage, radio2, points.getTwos());
+					setPoints(points, player, client, label2, labelMessage, radio2, points.getTwos());
 				}
 				if (radio3.getSelection()){
 					points.setThrees(game.threes(roll.getValue()));
 					points.setUppSub(points.getThrees());
 					message = player.getName() + " played " + points.getThrees() + " on Threes.";
-					setPoints(points, player, label3, labelMessage, radio3, points.getThrees());
+					setPoints(points, player, client, label3, labelMessage, radio3, points.getThrees());
 				}
 				if (radio4.getSelection()){
 					points.setFours(game.fours(roll.getValue()));
 					points.setUppSub(points.getFours());
 					message = player.getName() + " played " + points.getFours() + " on Fours.";
-					setPoints(points, player, label4, labelMessage, radio4, points.getFours());
+					setPoints(points, player, client, label4, labelMessage, radio4, points.getFours());
 				}
 				if (radio5.getSelection()){
 					points.setFives(game.fives(roll.getValue()));
 					points.setUppSub(points.getFives());
 					message = player.getName() + " played " + points.getFives() + " on Fives.";
-					setPoints(points, player, label5, labelMessage, radio5, points.getFives());
+					setPoints(points, player, client, label5, labelMessage, radio5, points.getFives());
 				}
 				if (radio6.getSelection()){
 					points.setSixes(game.sixes(roll.getValue()));
 					points.setUppSub(points.getSixes());
 					message = player.getName() + " played " + points.getSixes() + " on Sixes.";
-					setPoints(points, player, label6, labelMessage, radio6, points.getSixes());
+					setPoints(points, player, client, label6, labelMessage, radio6, points.getSixes());
 				}
 				if (radio3K.getSelection()){
 					points.setThreeK(game.threeOfAKind(roll.getDice(), roll.getValue()));
 					points.setLowTotal(points.getThreeK());
 					message = player.getName() + " played " + points.getThreeK() + " on 3 of a Kind.";
-					setPoints(points, player, label3K, labelMessage, radio3K, points.getThreeK());
+					setPoints(points, player, client, label3K, labelMessage, radio3K, points.getThreeK());
 				}
 				if (radio4K.getSelection()){
 					points.setFourK(game.fourOfAKind(roll.getDice(), roll.getValue()));
 					points.setLowTotal(points.getFourK());
 					message = player.getName() + " played " + points.getFourK() + " on 4 of a Kind.";
-					setPoints(points, player, label4K, labelMessage, radio4K, points.getFourK());
+					setPoints(points, player, client, label4K, labelMessage, radio4K, points.getFourK());
 				}
 				if (radioFull.getSelection()){
 					points.setFull(game.fullHouse(roll.getValue()));
 					points.setLowTotal(points.getFull());
 					message = player.getName() + " played " + points.getFull() + " on Full House.";
-					setPoints(points, player, labelFull, labelMessage, radioFull, points.getFull());
+					setPoints(points, player, client, labelFull, labelMessage, radioFull, points.getFull());
 				}
 				if (radioSmall.getSelection()){
 					points.setSmall(game.smallStraight(roll.getDice()));
 					points.setLowTotal(points.getSmall());
 					message = player.getName() + " played " + points.getSmall() + " on Small Straight.";
-					setPoints(points, player, labelSmall, labelMessage, radioSmall, points.getSmall());
+					setPoints(points, player, client, labelSmall, labelMessage, radioSmall, points.getSmall());
 				}
 				if (radioLarge.getSelection()){
 					points.setLarge(game.largeStraight(roll.getDice()));
 					points.setLowTotal(points.getLarge());
 					message = player.getName() + " played " + points.getLarge() + " on Large Straight.";
-					setPoints(points, player, labelLarge, labelMessage, radioLarge, points.getLarge());
+					setPoints(points, player, client, labelLarge, labelMessage, radioLarge, points.getLarge());
 				}
 				if (radioY.getSelection()){
 					points.setYahtzee(game.yahtzee(roll.getValue()));
 					points.setLowTotal(points.getYahtzee());
 					message = player.getName() + " played " + points.getYahtzee() + " on Yahtzee.";
-					setPoints(points, player, labelY, labelMessage, radioY, points.getYahtzee());
+					setPoints(points, player, client, labelY, labelMessage, radioY, points.getYahtzee());
 				}
 				if (radioC.getSelection()){
 					points.setChance(game.chance(roll.getDice()));
 					points.setLowTotal(points.getChance());
 					message = player.getName() + " played " + points.getChance() + " on Chance.";
-					setPoints(points, player, labelC, labelMessage, radioC, points.getChance());
+					setPoints(points, player, client, labelC, labelMessage, radioC, points.getChance());
 				}
 				
 				player.setTurn(player.getTurn() + 1);
