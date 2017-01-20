@@ -154,10 +154,18 @@ public class Login extends Dialog {
 					return;
 				}
 			
-				client.sendMessage(name, labelErrorNick, "Nickname already used!");
-				GameWindow window = new GameWindow();
-				shellLogin.close();
-				window.open();
+				client.sendMessage(name, labelErrorServer, serverError);
+				String message = client.recieveMessage(labelErrorServer, serverError);
+				System.out.println(message);
+				if (message == "0"){
+					labelErrorNick.setText("Nickname already used!");
+					return;
+				}
+				else {
+					GameWindow window = new GameWindow();
+					shellLogin.close();
+					window.open();
+				}
 			}
 			
 			@Override

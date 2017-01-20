@@ -50,8 +50,8 @@ public class GameWindow {
 		play.setEnabled(false);
 		rolls = 0;
 		hodit.setEnabled(true);
-		labelMessage.setText(message);
 		client.sendMessage(message, labelMessage, serverError);
+		labelMessage.setText(client.recieveMessage(labelMessage, serverError));
 	}
 	
 	/**
@@ -575,7 +575,8 @@ public class GameWindow {
 					labelBonus.setText("35");
 					player.setBonus(true);
 					message += " " + player.getName() + " just achieved bonus 35 points.";
-					labelMessage.setText(message);
+					client.sendMessage(message, labelMessage, serverError);
+					labelMessage.setText(client.recieveMessage(labelMessage, serverError));
 				}
 				
 				if (labelMessage.getText() == serverError){

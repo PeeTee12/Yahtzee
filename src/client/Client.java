@@ -40,14 +40,26 @@ public class Client {
 	}
 	
 	public String recieveMessage(Label label, String error){
+		char[] buffer = new char[128];
 		String message = "";
 		try {
 			input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			message = input.readLine();
+			input.read(buffer);
+			System.out.println(buffer);
+			message = String.copyValueOf(buffer);
 		} catch (IOException e) {
 			label.setText(error);
 		}
 		return message;
+	}
+	
+	public void chooseOperation(int choice, Label label){
+		switch(choice){
+		case 0: label.setText("Nickname already used!");
+		break;
+		case 1: label.setText(recieveMessage(label, ""));
+		break;
+		}
 	}
 	
 	public static void main(String[] args) {
