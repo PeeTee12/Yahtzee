@@ -1,16 +1,23 @@
 package client;
 
 import org.eclipse.swt.widgets.Label;
+
+import gui.GameWindow;
+import gui.Login;
+
 import java.io.*;
 import java.net.*;
 
-public class Client {
+public class Client extends Thread{
 	
 	PrintWriter output;
 	BufferedReader input;
 	Socket socket;
+	GameWindow gameWindow;
+	private final String serverError = "Server not found! Please try again later...";
 	
-	public Client() {
+	public Client(GameWindow gameWindow) {
+		this.gameWindow = gameWindow;
 		
 	}
 	/**
@@ -62,10 +69,16 @@ public class Client {
 		}
 	}
 	
-	public static void main(String[] args) {
-		Client client = new Client();
-		while (true){
-		client.connect("10.0.0.2", null, " ");
+	public void run(){
+		String message = null;
+		
+		while(true){
+			message = recieveMessage(gameWindow.labelMessage, serverError);
+			if (message != null){
+				gameWindow.labelMessage.setText(message);
+				message = null;
+			}
 		}
+		
 	}
 }

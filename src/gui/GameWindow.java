@@ -27,6 +27,7 @@ public class GameWindow {
 	Points points;
 	Button hodit;
 	Button play;
+	public Label labelMessage;
 	static Client client;
 	static Login login;
 	int rolls = 0;
@@ -98,8 +99,8 @@ public class GameWindow {
 	public static void main(String[] args) {
 		try {
 			GameWindow window = new GameWindow();
-			client = new Client();
 			//window.open();
+			client = new Client(window);
 			login = new Login(window.shlYahtzee, SWT.NONE, client);
 			login.open();
 		} catch (Exception e) {
@@ -114,7 +115,7 @@ public class GameWindow {
 	public void open() {
 		Display display = Display.getDefault();
 		createContents();
-		shlYahtzee.setImage(SWTResourceManager.getImage("Six.jpg"));
+		shlYahtzee.setImage(SWTResourceManager.getImage(GameWindow.class, "/Six.jpg"));
 		shlYahtzee.open();
 		shlYahtzee.layout();
 		while (!shlYahtzee.isDisposed()) {
@@ -436,7 +437,7 @@ public class GameWindow {
 		labelLowTotal.setAlignment(SWT.CENTER);
 		labelLowTotal.setBounds(963, 561, 50, 26);
 		
-		final Label labelMessage = new Label(shlYahtzee, SWT.NONE);
+		labelMessage = new Label(shlYahtzee, SWT.NONE);
 		labelMessage.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		labelMessage.setFont(SWTResourceManager.getFont("Microsoft Sans Serif", 15, SWT.NORMAL));
 		labelMessage.setBounds(10, 725, 940, 26);
@@ -449,7 +450,7 @@ public class GameWindow {
 		labelTurn.setVisible(false);
 
 		hodit = new Button(shlYahtzee, SWT.NONE);
-		hodit.setBackground(SWTResourceManager.getColor(75, 0, 130));
+		hodit.setBackground(SWTResourceManager.getColor(240, 240, 240));
 		hodit.setFont(SWTResourceManager.getFont("Comic Sans MS", 14, SWT.NORMAL));
 		hodit.setBounds(25, 635, 160, 40);
 		hodit.setText("Roll");
@@ -482,7 +483,7 @@ public class GameWindow {
 		play = new Button(shlYahtzee, SWT.NONE);
 		play.setText("Play");
 		play.setFont(SWTResourceManager.getFont("Comic Sans MS", 14, SWT.NORMAL));
-		play.setBackground(SWTResourceManager.getColor(75, 0, 130));
+		play.setBackground(SWTResourceManager.getColor(240, 240, 240));
 		play.setBounds(840, 635, 160, 40);
 		play.setEnabled(false);
 		play.addMouseListener(new MouseListener() {

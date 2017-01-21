@@ -165,6 +165,7 @@ public class Login extends Dialog {
 					GameWindow window = new GameWindow();
 					shellLogin.close();
 					window.open();
+					client.start();
 				}
 			}
 			
