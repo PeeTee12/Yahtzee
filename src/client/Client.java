@@ -3,8 +3,6 @@ package client;
 import org.eclipse.swt.widgets.Label;
 
 import gui.GameWindow;
-import gui.Login;
-
 import java.io.*;
 import java.net.*;
 
