@@ -73,63 +73,31 @@ public class Login extends Dialog {
 		//client = new Client();
 		
 		textNick = new Text(shellLogin, SWT.BORDER);
-		textNick.setBounds(77, 62, 265, 21);
+		textNick.setBounds(77, 65, 265, 21);
 		
 		textServer = new Text(shellLogin, SWT.BORDER);
-		textServer.setBounds(77, 123, 265, 21);
+		textServer.setBounds(77, 131, 265, 21);
 		
 		final Label labelNick = new Label(shellLogin, SWT.NONE);
-		labelNick.setBounds(77, 41, 116, 15);
+		labelNick.setBounds(77, 41, 265, 15);
 		labelNick.setText("Enter your nickname");
 		
 		final Label labelErrorNick = new Label(shellLogin, SWT.NONE);
 		labelErrorNick.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
-		labelErrorNick.setBounds(77, 84, 265, 15);
+		labelErrorNick.setBounds(77, 90, 265, 15);
 		
 		final Label labelServer = new Label(shellLogin, SWT.NONE);
-		labelServer.setBounds(77, 102, 132, 15);
+		labelServer.setBounds(77, 107, 265, 15);
 		labelServer.setText("Enter server IP address");
 		
 		final Label labelErrorServer = new Label(shellLogin, SWT.NONE);
 		labelErrorServer.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
-		labelErrorServer.setBounds(77, 145, 265, 15);
+		labelErrorServer.setBounds(77, 156, 265, 15);
 		
-		Button buttonJoin = new Button(shellLogin, SWT.NONE);
-		buttonJoin.setBounds(77, 188, 75, 25);
-		buttonJoin.setText("Join Game");
-		buttonJoin.addMouseListener(new MouseListener() {
-			
-			@Override
-			public void mouseDown(MouseEvent arg0) {
-				name = textNick.getText();
-				if (textNick.getText() == "") {
-					labelErrorNick.setText(nameError);
-					return;
-				}
-				else {
-					labelErrorNick.setText("");
-				}
-				server = textServer.getText();
-				if (textServer.getText() == "") {
-					labelErrorServer.setText(emptyServerError);
-					return;
-				}
-				else {
-					labelErrorServer.setText("");
-				}
-			}	
-			@Override
-			public void mouseUp(MouseEvent arg0) {
-			}
-			@Override
-			public void mouseDoubleClick(MouseEvent arg0) {
-			}
-		});
-		
-		Button buttonCreate = new Button(shellLogin, SWT.NONE);
-		buttonCreate.setBounds(226, 188, 116, 25);
-		buttonCreate.setText("Create a New Game");
-		buttonCreate.addMouseListener(new MouseListener() {
+		Button buttonPlay = new Button(shellLogin, SWT.NONE);
+		buttonPlay.setBounds(163, 187, 91, 36);
+		buttonPlay.setText("Play");
+		buttonPlay.addMouseListener(new MouseListener() {
 			
 			@Override
 			public void mouseDown(MouseEvent arg0) {
@@ -153,7 +121,7 @@ public class Login extends Dialog {
 				if (labelErrorServer.getText() == serverError){
 					return;
 				}
-			
+				
 				client.sendMessage(name, labelErrorServer, serverError);
 				String message = client.recieveMessage(labelErrorServer, serverError);
 				System.out.println(message);
@@ -167,8 +135,7 @@ public class Login extends Dialog {
 					window.open();
 					client.start();
 				}
-			}
-			
+			}	
 			@Override
 			public void mouseUp(MouseEvent arg0) {
 			}
