@@ -16,7 +16,7 @@ import org.eclipse.wb.swt.SWTResourceManager;
 public class Login extends Dialog {
 
 	protected Object result;
-	protected Shell shellLogin;
+	public Shell shellLogin;
 	private Text textNick;
 	private Text textServer;
 	private String name;
@@ -26,6 +26,7 @@ public class Login extends Dialog {
 	private final String emptyServerError = "Please enter server address.";
 	
 	Client client;
+	GameWindow gameWindow;
 	
 	public String getName(){
 		return name;
@@ -40,9 +41,9 @@ public class Login extends Dialog {
 	 * @param parent
 	 * @param style
 	 */
-	public Login(Shell parent, int style, Client client) {
+	public Login(Shell parent, int style, GameWindow gameWindow) {
 		super(parent, style);
-		this.client = client;
+		this.gameWindow = gameWindow;
 	}
 
 	/**
@@ -70,16 +71,16 @@ public class Login extends Dialog {
 		shellLogin.setSize(450, 300);
 		shellLogin.setText("Login to Yahtzee");
 		shellLogin.setLayout(null);
-		//client = new Client();
+		client = new Client(gameWindow, shellLogin);
 		
 		textNick = new Text(shellLogin, SWT.BORDER);
-		textNick.setBounds(77, 65, 265, 21);
+		textNick.setBounds(77, 65, 265, 23);
 		
 		textServer = new Text(shellLogin, SWT.BORDER);
-		textServer.setBounds(77, 131, 265, 21);
+		textServer.setBounds(77, 131, 265, 23);
 		
 		final Label labelNick = new Label(shellLogin, SWT.NONE);
-		labelNick.setBounds(77, 41, 265, 15);
+		labelNick.setBounds(77, 41, 265, 18);
 		labelNick.setText("Enter your nickname");
 		
 		final Label labelErrorNick = new Label(shellLogin, SWT.NONE);
@@ -87,12 +88,15 @@ public class Login extends Dialog {
 		labelErrorNick.setBounds(77, 90, 265, 15);
 		
 		final Label labelServer = new Label(shellLogin, SWT.NONE);
-		labelServer.setBounds(77, 107, 265, 15);
+		labelServer.setBounds(77, 107, 265, 18);
 		labelServer.setText("Enter server IP address");
 		
 		final Label labelErrorServer = new Label(shellLogin, SWT.NONE);
 		labelErrorServer.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
 		labelErrorServer.setBounds(77, 156, 265, 15);
+		
+		final Label labelWaiting = new Label(shellLogin, SWT.NONE);
+		labelWaiting.setBounds(10, 247, 332, 18);
 		
 		Button buttonPlay = new Button(shellLogin, SWT.NONE);
 		buttonPlay.setBounds(163, 187, 91, 36);
@@ -121,20 +125,18 @@ public class Login extends Dialog {
 				if (labelErrorServer.getText() == serverError){
 					return;
 				}
-				
+				labelWaiting.setText("Waiting for player 2...");
+				client.start();
 				client.sendMessage(name, labelErrorServer, serverError);
-				String message = client.recieveMessage(labelErrorServer, serverError);
+				
+				/*String message = client.recieveMessage(labelErrorServer, serverError);
 				System.out.println(message);
 				if (message == "0"){
 					labelErrorNick.setText("Nickname already used!");
 					return;
 				}
 				else {
-					GameWindow window = new GameWindow();
-					shellLogin.close();
-					window.open();
-					client.start();
-				}
+				}*/
 			}	
 			@Override
 			public void mouseUp(MouseEvent arg0) {

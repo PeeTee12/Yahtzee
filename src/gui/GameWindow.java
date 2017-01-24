@@ -28,6 +28,7 @@ public class GameWindow {
 	Button hodit;
 	Button play;
 	public Label labelMessage;
+	public Label labelNick2;
 	static Client client;
 	static Login login;
 	int rolls = 0;
@@ -103,8 +104,7 @@ public class GameWindow {
 		try {
 			GameWindow window = new GameWindow();
 			//window.open();
-			client = new Client(window);
-			login = new Login(window.shlYahtzee, SWT.NONE, client);
+			login = new Login(window.shlYahtzee, SWT.NONE, window);
 			login.open();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -117,15 +117,15 @@ public class GameWindow {
 	 */
 	public void open() {
 		Display display = Display.getDefault();
-		createContents();
-		shlYahtzee.setImage(SWTResourceManager.getImage(GameWindow.class, "/Six.jpg"));
-		shlYahtzee.open();
-		shlYahtzee.layout();
-		while (!shlYahtzee.isDisposed()) {
-			if (!display.readAndDispatch()) {
-				display.sleep();
+			createContents();
+			shlYahtzee.setImage(SWTResourceManager.getImage(GameWindow.class, "/Six.jpg"));
+			shlYahtzee.open();
+			shlYahtzee.layout();
+			while (!shlYahtzee.isDisposed()) {
+				if (!display.readAndDispatch()) {
+					display.sleep();
+				}
 			}
-		}
 	}
 
 	/**

@@ -1,10 +1,13 @@
 package client;
 
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
 
 import gui.GameWindow;
 import java.io.*;
 import java.net.*;
+import java.lang.Thread;
 
 public class Client extends Thread{
 	
@@ -12,10 +15,12 @@ public class Client extends Thread{
 	BufferedReader input;
 	Socket socket;
 	GameWindow gameWindow;
+	Shell shellLogin;
 	private final String serverError = "Server not found! Please try again later...";
 	
-	public Client(GameWindow gameWindow) {
+	public Client(GameWindow gameWindow, Shell shellLogin) {
 		this.gameWindow = gameWindow;
+		this.shellLogin = shellLogin;
 		
 	}
 	/**
@@ -68,15 +73,43 @@ public class Client extends Thread{
 	}
 	
 	public void run(){
-		String message = null;
+		Display.getDefault().asyncExec(new Runnable() {
+			
+		@Override
+		public void run() {
+						
+		char[] buffer = new char[128];
+		try{
+			input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			input.read(buffer);
 		
-		while(true){
-			message = recieveMessage(gameWindow.labelMessage, serverError);
-			if (message != null){
-				gameWindow.labelMessage.setText(message);
-				message = null;
+			String message;
+			String [] command;
+		
+			while(true){
+				message = new String(buffer);
+				message.replaceAll("\0", "");
+				command = message.split(",");
+		
+				//System.out.println("I'm running!");
+				if (command[0].equals("Init")){
+					shellLogin.close();
+					gameWindow = new GameWindow();
+					gameWindow.open();
+					gameWindow.labelNick2.setText(command[1]);
+					System.out.println(command[1]);
+				}
+				else if (command[0].equals("Name")){
+					gameWindow.labelNick2.setText(message);
+					message = null;
+				}
 			}
 		}
+		catch (IOException e){
+			gameWindow.labelMessage.setText(serverError);
+		}
 		
+			}
+		});
 	}
 }
