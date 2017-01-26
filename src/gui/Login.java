@@ -28,13 +28,15 @@ public class Login extends Dialog {
 	public Label labelNick;
 	private String name;
 	private String server;
+	private int port;
 	Socket socket;
 	private final String serverError = "Server not found! Please try again later...";
 	private final String nameError = "Please enter your nickname.";
-	private final String emptyServerError = "Please enter server address.";
+	private final String emptyServerError = "Please enter server address and port.";
 
 	Client client;
 	Send send;
+	private Text textPort;
 	
 	public String getName(){
 		return name;
@@ -84,7 +86,10 @@ public class Login extends Dialog {
 		textNick.setBounds(77, 65, 265, 23);
 		
 		textServer = new Text(shellLogin, SWT.BORDER);
-		textServer.setBounds(77, 131, 265, 23);
+		textServer.setBounds(77, 131, 193, 23);
+		
+		textPort = new Text(shellLogin, SWT.BORDER);
+		textPort.setBounds(284, 131, 76, 23);
 		
 		labelNick = new Label(shellLogin, SWT.NONE);
 		labelNick.setBounds(77, 41, 265, 18);
@@ -95,15 +100,19 @@ public class Login extends Dialog {
 		labelErrorNick.setBounds(77, 90, 265, 15);
 		
 		final Label labelServer = new Label(shellLogin, SWT.NONE);
-		labelServer.setBounds(77, 107, 265, 18);
+		labelServer.setBounds(77, 107, 193, 18);
 		labelServer.setText("Enter server IP address");
 		
 		final Label labelErrorServer = new Label(shellLogin, SWT.NONE);
 		labelErrorServer.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
 		labelErrorServer.setBounds(77, 156, 265, 15);
 		
+		Label labelPort = new Label(shellLogin, SWT.NONE);
+		labelPort.setBounds(284, 107, 76, 18);
+		labelPort.setText("Enter port");
+		
 		final Label labelWaiting = new Label(shellLogin, SWT.NONE);
-		labelWaiting.setBounds(10, 247, 332, 18);
+		labelWaiting.setBounds(10, 229, 332, 18);
 		
 		Button buttonPlay = new Button(shellLogin, SWT.NONE);
 		buttonPlay.setBounds(163, 187, 91, 36);
@@ -128,9 +137,14 @@ public class Login extends Dialog {
 				else {
 					labelErrorServer.setText("");
 				}
+				port = Integer.parseInt(textPort.getText());
+				if (textPort.getText() == "") {
+					labelErrorServer.setText(emptyServerError);
+					return;
+				}
 				try {
 					//tahle vec musi byt navazana uz nekde v konstruktoru
-					socket = new Socket(server, 10001);
+					socket = new Socket(server, port);
 					InetAddress address = socket.getInetAddress();
 					System.out.println("Connecting to: " + address.getHostAddress()+" / " + address.getHostName());
 				} catch (IOException e) {
@@ -141,13 +155,10 @@ public class Login extends Dialog {
 					return;
 				}
 				labelWaiting.setText("Waiting for player 2...");
-				client = new Client(shellLogin, socket, name);
+				client = new Client(shellLogin, socket);
 				send = new Send(socket);
 				client.start();
-				send.sendMessage(name, labelErrorServer, serverError);
-				if (labelNick.getText() == "Nickname already used!"){
-					return;
-				}
+				send.sendMessage("Init," + name, labelErrorServer, serverError);
 				System.out.println("Thread started");
 				
 				/*String message = client.recieveMessage(labelErrorServer, serverError);

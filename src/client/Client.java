@@ -6,8 +6,6 @@ import org.eclipse.swt.widgets.Shell;
 
 import data.Player;
 import gui.GameWindow;
-import gui.Login;
-import gui.Window;
 
 import java.io.*;
 import java.net.*;
@@ -18,28 +16,25 @@ public class Client extends Thread{
 		BufferedReader input;
 		Socket socket;
 		GameWindow gameWindow;
-		Window window;
 		Shell shellLogin;
 		Player player;
-		private String name;
 		private String con;
 		private String con2;
 		private final String serverError = "Server not found! Please try again later...";
 		
-		public Client(Shell shellLogin, Socket socket, String name) {
+		public Client(Shell shellLogin, Socket socket) {
 			this.shellLogin = shellLogin;
 			this.socket = socket;
-			this.name = name;
 			
 		}
 		/**
 		 * Metoda pro navázání spojení, vytváří socket.
 		 * @param socket
 		 */
-		public void connect(String server, Label label, String error){
+		public void connect(String server, int port, Label label, String error){
 			try {
 				//tahle vec musi byt navazana uz nekde v konstruktoru
-				socket = new Socket(server, 10001);
+				socket = new Socket(server, port);
 				InetAddress address = socket.getInetAddress();
 				System.out.println("Connecting to: " + address.getHostAddress()+" / " + address.getHostName());
 			} catch (IOException e) {
@@ -66,7 +61,7 @@ public class Client extends Thread{
 			try {
 				input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				input.read(buffer);
-				System.out.println(buffer);
+				//System.out.println(buffer);
 				message = String.copyValueOf(buffer);
 			} catch (IOException e) {
 				label.setText(error);
@@ -92,13 +87,12 @@ public class Client extends Thread{
 					
 					message.replaceAll("\0", "");
 					command = message.split(",");	
-					System.out.println(message);
 					
 				
 					//System.out.println("I'm running!");
 					if (command[0].equals("Init")){
-						con = command[1];
-						player = new Player(name);
+						player = new Player(command[1]);
+						con = command[2];
 						Display.getDefault().asyncExec(new Runnable() {
 							
 							@Override
@@ -112,8 +106,8 @@ public class Client extends Thread{
 							}
 						});
 						//window = new Window(socket);
-						System.out.println(command[1]);
-						System.out.println(command[0]);
+						//System.out.println(command[1]);
+						//System.out.println(command[0]);
 						//buffer = null;
 					}
 					else if (command[0].equals("Lock")){
@@ -136,13 +130,10 @@ public class Client extends Thread{
 							}
 						});
 					}
-					else if (command[0].equals("Name")){
-						System.out.println("Nickname already used!");
-					}
-					else if (command[0].equals("Result")){
+					else if (command[0].equals("Res")){
 						con = command[1];
-						//con2 = command[2];
-						System.out.println("Your final score is: " + con + " against: ");
+						con2 = command[2];
+						System.out.println("Your final score is: " + con + " against: " + con2);
 						Display.getDefault().asyncExec(new Runnable() {
 							
 							@Override
@@ -157,7 +148,7 @@ public class Client extends Thread{
 									gameWindow.labelMessage.setText("You tied! Your score was: " + con + ".");
 								}*/
 								
-								gameWindow.labelMessage.setText("Your final score is: " + con + " against: ");
+								gameWindow.labelMessage.setText("Your final score is: " + con + " against: " + con2);
 							}
 						});
 						
@@ -173,9 +164,9 @@ public class Client extends Thread{
 							}
 						});
 					}
-					else if (command[0].endsWith("s") || command[0].endsWith("K") || command[0].endsWith("e") || command[0].endsWith("l")){
+					else if (command[0].equals("Play")){
 						command = message.split(",");
-						con = command[2];
+						con = command[3];
 						Display.getDefault().asyncExec(new Runnable() {
 							
 							@Override
@@ -184,16 +175,19 @@ public class Client extends Thread{
 							}
 						});
 					}
-					/*try {
-						wait();
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}*/
+					else if (command[0].equals("Kill")){
+						System.out.println("Game is over, someone left the game.");
+						System.exit(1);
+					}
+					for(int i=0; i<buffer.length; i++){
+						buffer[i] = 0;
+					}
 				}
 			}
 			catch (IOException e){
 				//gameWindow.labelMessage.setText(serverError);
 				System.out.println("Connection failed.");
+				System.exit(1);
 			}
 		}
 		

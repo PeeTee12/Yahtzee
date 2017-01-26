@@ -20,9 +20,9 @@ public class Send {
 			output = new PrintWriter(socket.getOutputStream());
 			output.write(message);
 		} catch (IOException e) {
+			e.printStackTrace();
 			label.setText(error);
-		} catch (NullPointerException n){
-			label.setText(error);
+			System.out.println(error);
 		}
 		output.flush();
 	}
