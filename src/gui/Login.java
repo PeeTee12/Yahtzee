@@ -6,6 +6,12 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 import client.Client;
+import client.Send;
+
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.Socket;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
@@ -19,14 +25,16 @@ public class Login extends Dialog {
 	public Shell shellLogin;
 	private Text textNick;
 	private Text textServer;
+	public Label labelNick;
 	private String name;
 	private String server;
+	Socket socket;
 	private final String serverError = "Server not found! Please try again later...";
 	private final String nameError = "Please enter your nickname.";
 	private final String emptyServerError = "Please enter server address.";
-	
+
 	Client client;
-	GameWindow gameWindow;
+	Send send;
 	
 	public String getName(){
 		return name;
@@ -41,9 +49,8 @@ public class Login extends Dialog {
 	 * @param parent
 	 * @param style
 	 */
-	public Login(Shell parent, int style, GameWindow gameWindow) {
+	public Login(Shell parent, int style) {
 		super(parent, style);
-		this.gameWindow = gameWindow;
 	}
 
 	/**
@@ -68,10 +75,10 @@ public class Login extends Dialog {
 	 */
 	private void createContents() {
 		shellLogin = new Shell(getParent(), SWT.CLOSE | SWT.TITLE);
+		shellLogin.setImage(SWTResourceManager.getImage(Login.class, "/Six.jpg"));
 		shellLogin.setSize(450, 300);
 		shellLogin.setText("Login to Yahtzee");
 		shellLogin.setLayout(null);
-		client = new Client(gameWindow, shellLogin);
 		
 		textNick = new Text(shellLogin, SWT.BORDER);
 		textNick.setBounds(77, 65, 265, 23);
@@ -79,7 +86,7 @@ public class Login extends Dialog {
 		textServer = new Text(shellLogin, SWT.BORDER);
 		textServer.setBounds(77, 131, 265, 23);
 		
-		final Label labelNick = new Label(shellLogin, SWT.NONE);
+		labelNick = new Label(shellLogin, SWT.NONE);
 		labelNick.setBounds(77, 41, 265, 18);
 		labelNick.setText("Enter your nickname");
 		
@@ -121,13 +128,27 @@ public class Login extends Dialog {
 				else {
 					labelErrorServer.setText("");
 				}
-				client.connect(server, labelErrorServer, serverError);
+				try {
+					//tahle vec musi byt navazana uz nekde v konstruktoru
+					socket = new Socket(server, 10001);
+					InetAddress address = socket.getInetAddress();
+					System.out.println("Connecting to: " + address.getHostAddress()+" / " + address.getHostName());
+				} catch (IOException e) {
+					System.out.println("Server not found! Please try again later...");
+					labelErrorServer.setText(serverError);
+				}
 				if (labelErrorServer.getText() == serverError){
 					return;
 				}
 				labelWaiting.setText("Waiting for player 2...");
+				client = new Client(shellLogin, socket, name);
+				send = new Send(socket);
 				client.start();
-				client.sendMessage(name, labelErrorServer, serverError);
+				send.sendMessage(name, labelErrorServer, serverError);
+				if (labelNick.getText() == "Nickname already used!"){
+					return;
+				}
+				System.out.println("Thread started");
 				
 				/*String message = client.recieveMessage(labelErrorServer, serverError);
 				System.out.println(message);
