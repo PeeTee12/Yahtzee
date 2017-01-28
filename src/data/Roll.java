@@ -201,7 +201,7 @@ public class Roll {
     	}
     }
     
-   public static void main(String []args){
+   /*public static void main(String []args){
        
        Roll roll = new Roll();
        Game game = new Game();
@@ -241,7 +241,7 @@ public class Roll {
        System.out.println("Chance: " + chance);
        }
        
-   } 
+   }*/ 
 
 
     

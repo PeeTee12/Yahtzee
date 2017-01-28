@@ -28,8 +28,9 @@ public class GameWindow {
 	Game game;
 	Player player;
 	Points points;
-	public Button hodit;
-	Button play;
+	public Button buttonRoll;
+	public Button buttonNewGame;
+	Button buttonPlay;
 	Send send;
 	public Socket socket;
 	public Label labelMessage;
@@ -69,7 +70,7 @@ public class GameWindow {
 		}
 		radio.setEnabled(false);
 		radio.setSelection(false);
-		play.setEnabled(false);
+		buttonPlay.setEnabled(false);
 		rolls = 0;
 		send.sendMessage("Play," + number + "," + score + "," + message, labelMessage, serverError);
 		System.out.println("Play," + number + "," + score + "," + player.getName() + " played " + score + " on " + number + ".");
@@ -481,7 +482,7 @@ public class GameWindow {
 		labelMessage = new Label(shlYahtzee, SWT.NONE);
 		labelMessage.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		labelMessage.setFont(SWTResourceManager.getFont("Microsoft Sans Serif", 15, SWT.NORMAL));
-		labelMessage.setBounds(10, 725, 940, 26);
+		labelMessage.setBounds(10, 725, 796, 26);
 		
 		final Label labelTurn = new Label(shlYahtzee, SWT.NONE);
 		labelTurn.setBackground(SWTResourceManager.getColor(250, 229, 108));
@@ -490,12 +491,12 @@ public class GameWindow {
 		labelTurn.setBounds(100, 635, 824, 40);
 		labelTurn.setVisible(false);
 
-		hodit = new Button(shlYahtzee, SWT.NONE);
-		hodit.setBackground(SWTResourceManager.getColor(240, 240, 240));
-		hodit.setFont(SWTResourceManager.getFont("Comic Sans MS", 14, SWT.NORMAL));
-		hodit.setBounds(25, 635, 160, 40);
-		hodit.setText("Roll");
-		hodit.addMouseListener(new MouseListener() {
+		buttonRoll = new Button(shlYahtzee, SWT.NONE);
+		buttonRoll.setBackground(SWTResourceManager.getColor(240, 240, 240));
+		buttonRoll.setFont(SWTResourceManager.getFont("Comic Sans MS", 14, SWT.NORMAL));
+		buttonRoll.setBounds(25, 635, 160, 40);
+		buttonRoll.setText("Roll");
+		buttonRoll.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseDown(MouseEvent arg0) {
 				roll.rollDice();
@@ -505,11 +506,16 @@ public class GameWindow {
 				roll.dicePicture(roll.getDice(), 3, dice4);
 				roll.dicePicture(roll.getDice(), 4, dice5);
 				roll.valueCounter(roll.getDice());
-				play.setEnabled(true);
+				buttonPlay.setEnabled(true);
 				rolls++;
 				if (rolls == 3){
-					hodit.setEnabled(false);
-				}				
+					buttonRoll.setEnabled(false);
+				}	
+				dice1.setEnabled(true);
+				dice2.setEnabled(true);
+				dice3.setEnabled(true);
+				dice4.setEnabled(true);
+				dice5.setEnabled(true);
 			}
 			
 			@Override
@@ -521,13 +527,13 @@ public class GameWindow {
 			}
 		});
 		
-		play = new Button(shlYahtzee, SWT.NONE);
-		play.setText("Play");
-		play.setFont(SWTResourceManager.getFont("Comic Sans MS", 14, SWT.NORMAL));
-		play.setBackground(SWTResourceManager.getColor(240, 240, 240));
-		play.setBounds(840, 635, 160, 40);
-		play.setEnabled(false);
-		play.addMouseListener(new MouseListener() {
+		buttonPlay = new Button(shlYahtzee, SWT.NONE);
+		buttonPlay.setText("Play");
+		buttonPlay.setFont(SWTResourceManager.getFont("Comic Sans MS", 14, SWT.NORMAL));
+		buttonPlay.setBackground(SWTResourceManager.getColor(240, 240, 240));
+		buttonPlay.setBounds(840, 635, 160, 40);
+		buttonPlay.setEnabled(false);
+		buttonPlay.addMouseListener(new MouseListener() {
 			
 			@Override
 			public void mouseDown(MouseEvent arg0) {
@@ -626,6 +632,11 @@ public class GameWindow {
 				dice3.setText("");
 				dice4.setText("");
 				dice5.setText("");
+				dice1.setEnabled(false);
+				dice2.setEnabled(false);
+				dice3.setEnabled(false);
+				dice4.setEnabled(false);
+				dice5.setEnabled(false);
 				
 			}
 			
@@ -638,11 +649,48 @@ public class GameWindow {
 			}
 		});
 		
+		buttonNewGame = new Button(shlYahtzee, SWT.NONE);
+		buttonNewGame.setBounds(824, 726, 75, 25);
+		buttonNewGame.setText("New Game");
+		buttonNewGame.setVisible(false);
+		buttonNewGame.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseDown(MouseEvent arg0) {
+				shlYahtzee.close();
+				login = new Login(shlYahtzee, SWT.NONE);
+				login.open();
+			}
+			@Override
+			public void mouseUp(MouseEvent arg0) {	
+			}
+			@Override
+			public void mouseDoubleClick(MouseEvent arg0) {	
+			}
+		});
+		
+		Button buttonExit = new Button(shlYahtzee, SWT.NONE);
+		buttonExit.setBounds(913, 726, 75, 25);
+		buttonExit.setText("Exit");
+		buttonExit.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseDown(MouseEvent arg0) {
+				send.sendMessage("Kill,Right,Now,Dude", labelMessage, "Server not found! Please try again later...");
+				System.exit(1);
+			}
+			@Override
+			public void mouseUp(MouseEvent arg0) {	
+			}
+			@Override
+			public void mouseDoubleClick(MouseEvent arg0) {	
+			}
+		});
+		
 		CLabel background = new CLabel(shlYahtzee, SWT.NONE);
 		background.setBackground(SWTResourceManager.getImage(GameWindow.class, "/Yahtzee.jpg"));
 		background.setBounds(0, 0, 1024, 768);
 		background.setText("");
 		
 	}
-	
 }

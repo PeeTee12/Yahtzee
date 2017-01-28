@@ -69,6 +69,11 @@ public class Login extends Dialog {
 				display.sleep();
 			}
 		}
+		try {
+			send.sendMessage("KILL,SERVER,RIGHT,NOW", null, null);
+			System.exit(1);
+		} catch (NullPointerException e) {
+		}
 		return result;
 	}
 
@@ -114,7 +119,7 @@ public class Login extends Dialog {
 		final Label labelWaiting = new Label(shellLogin, SWT.NONE);
 		labelWaiting.setBounds(10, 229, 332, 18);
 		
-		Button buttonPlay = new Button(shellLogin, SWT.NONE);
+		final Button buttonPlay = new Button(shellLogin, SWT.NONE);
 		buttonPlay.setBounds(163, 187, 91, 36);
 		buttonPlay.setText("Play");
 		buttonPlay.addMouseListener(new MouseListener() {
@@ -137,38 +142,44 @@ public class Login extends Dialog {
 				else {
 					labelErrorServer.setText("");
 				}
-				port = Integer.parseInt(textPort.getText());
-				if (textPort.getText() == "") {
-					labelErrorServer.setText(emptyServerError);
+				try {
+					port = Integer.parseInt(textPort.getText());
+				} catch (NumberFormatException e) {
+					labelErrorServer.setText("Please enter different port between 1 and 65535.");
 					return;
 				}
 				try {
-					//tahle vec musi byt navazana uz nekde v konstruktoru
 					socket = new Socket(server, port);
 					InetAddress address = socket.getInetAddress();
 					System.out.println("Connecting to: " + address.getHostAddress()+" / " + address.getHostName());
 				} catch (IOException e) {
 					System.out.println("Server not found! Please try again later...");
 					labelErrorServer.setText(serverError);
+				} catch (IllegalArgumentException i) {
+					labelErrorServer.setText("Please enter different port between 1 and 65535.");
+					return;
 				}
+				
 				if (labelErrorServer.getText() == serverError){
 					return;
 				}
-				labelWaiting.setText("Waiting for player 2...");
+				buttonPlay.setEnabled(false);
 				client = new Client(shellLogin, socket);
 				send = new Send(socket);
-				client.start();
-				send.sendMessage("Init," + name, labelErrorServer, serverError);
-				System.out.println("Thread started");
-				
-				/*String message = client.recieveMessage(labelErrorServer, serverError);
-				System.out.println(message);
-				if (message == "0"){
-					labelErrorNick.setText("Nickname already used!");
-					return;
+				send.sendMessage("INIT," + name, labelErrorServer, serverError);
+				String message = client.recieveMessage(labelErrorServer, serverError);
+				message = message.replaceAll("\0", "");
+				if (message.equals("NAME")){
+					labelWaiting.setText("Waiting for player 2...");
+					client.start();
+					System.out.println("Thread started");
+					labelErrorServer.setText("");
+					labelErrorNick.setText("");
 				}
 				else {
-				}*/
+					labelErrorServer.setText(serverError);
+					return;
+				}
 			}	
 			@Override
 			public void mouseUp(MouseEvent arg0) {

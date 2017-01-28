@@ -85,7 +85,7 @@ public class Client extends Thread{
 				if (buffer != null);
 					message = new String(buffer);
 					
-					message.replaceAll("\0", "");
+					message = message.replaceAll("\0", "");
 					command = message.split(",");	
 					
 				
@@ -115,7 +115,7 @@ public class Client extends Thread{
 							
 							@Override
 							public void run() {
-								gameWindow.hodit.setEnabled(false);
+								gameWindow.buttonRoll.setEnabled(false);
 								gameWindow.labelMessage.setText("Opponent's turn.");
 							}
 						});
@@ -125,7 +125,7 @@ public class Client extends Thread{
 							
 							@Override
 							public void run() {
-								gameWindow.hodit.setEnabled(true);
+								gameWindow.buttonRoll.setEnabled(true);
 								//gameWindow.labelMessage.setText("");
 							}
 						});
@@ -133,26 +133,48 @@ public class Client extends Thread{
 					else if (command[0].equals("Res")){
 						con = command[1];
 						con2 = command[2];
+						System.out.println(con + " " + con2);
+						int score1 = Integer.parseInt(command[1]);
+						int score2 = Integer.parseInt(command[2]);
 						System.out.println("Your final score is: " + con + " against: " + con2);
+						if (score1 > score2){
 						Display.getDefault().asyncExec(new Runnable() {
 							
 							@Override
 							public void run() {
-								/*if (Integer.parseInt(con) > Integer.parseInt(con2)){
 									gameWindow.labelMessage.setText("You won! Your score was: " + con + " against: " + con2 + ".");									
 								}
-								else if (Integer.parseInt(con) < Integer.parseInt(con2)){
-									gameWindow.labelMessage.setText("You lost! Your score was: " + con + " against: " + con2 + ".");
-								}
-								else {
-									gameWindow.labelMessage.setText("You tied! Your score was: " + con + ".");
-								}*/
+							
+							});
+						}
+						else if (score1 < score2){
+							Display.getDefault().asyncExec(new Runnable() {
 								
-								gameWindow.labelMessage.setText("Your final score is: " + con + " against: " + con2);
+								@Override
+								public void run() {
+									gameWindow.labelMessage.setText("You won! Your score was: " + con + " against: " + con2 + ".");									
+								}
+								
+								});
+						}
+						else {
+							Display.getDefault().asyncExec(new Runnable() {
+									
+								@Override
+								public void run() {
+									gameWindow.labelMessage.setText("You won! Your score was: " + con + " against: " + con2 + ".");									
+								}
+									
+							});
+						}
+						Display.getDefault().asyncExec(new Runnable() {
+							
+							@Override
+							public void run() {
+								gameWindow.buttonRoll.setEnabled(false);
+								gameWindow.buttonNewGame.setVisible(true);
 							}
 						});
-						
-						
 					}
 					else if (command[0].equals("Score")){
 						con = command[1];
