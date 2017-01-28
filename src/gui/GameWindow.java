@@ -652,12 +652,13 @@ public class GameWindow {
 		buttonNewGame = new Button(shlYahtzee, SWT.NONE);
 		buttonNewGame.setBounds(824, 726, 75, 25);
 		buttonNewGame.setText("New Game");
-		buttonNewGame.setVisible(false);
 		buttonNewGame.addMouseListener(new MouseListener() {
 			
 			@Override
 			public void mouseDown(MouseEvent arg0) {
-				shlYahtzee.close();
+				if (player.getTurn() == 13){
+					shlYahtzee.close();					
+				}
 				login = new Login(shlYahtzee, SWT.NONE);
 				login.open();
 			}
@@ -676,7 +677,7 @@ public class GameWindow {
 			
 			@Override
 			public void mouseDown(MouseEvent arg0) {
-				send.sendMessage("Kill,Right,Now,Dude", labelMessage, "Server not found! Please try again later...");
+				send.sendMessage("KILL,RIGHT,NOW,DUDE", labelMessage, "Server not found! Please try again later...");
 				System.exit(1);
 			}
 			@Override

@@ -163,13 +163,13 @@ public class Login extends Dialog {
 				if (labelErrorServer.getText() == serverError){
 					return;
 				}
-				buttonPlay.setEnabled(false);
 				client = new Client(shellLogin, socket);
 				send = new Send(socket);
 				send.sendMessage("INIT," + name, labelErrorServer, serverError);
 				String message = client.recieveMessage(labelErrorServer, serverError);
 				message = message.replaceAll("\0", "");
 				if (message.equals("NAME")){
+					buttonPlay.setEnabled(false);
 					labelWaiting.setText("Waiting for player 2...");
 					client.start();
 					System.out.println("Thread started");

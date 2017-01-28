@@ -172,7 +172,7 @@ public class Client extends Thread{
 							@Override
 							public void run() {
 								gameWindow.buttonRoll.setEnabled(false);
-								gameWindow.buttonNewGame.setVisible(true);
+								player.setTurn(13);
 							}
 						});
 					}
