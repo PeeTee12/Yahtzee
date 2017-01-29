@@ -142,9 +142,4 @@ public class Game {
         return points;
     }
     
-    public static void main (String[] args){
-        
-        
-    }
-    
 }

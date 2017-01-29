@@ -90,7 +90,7 @@ public class Client extends Thread{
 					
 				
 					//System.out.println("I'm running!");
-					if (command[0].equals("Init")){
+					if (command[0].equals("INIT")){
 						player = new Player(command[1]);
 						con = command[2];
 						Display.getDefault().asyncExec(new Runnable() {
@@ -110,7 +110,7 @@ public class Client extends Thread{
 						//System.out.println(command[0]);
 						//buffer = null;
 					}
-					else if (command[0].equals("Lock")){
+					else if (command[0].equals("LOCK")){
 						Display.getDefault().asyncExec(new Runnable() {
 							
 							@Override
@@ -120,7 +120,7 @@ public class Client extends Thread{
 							}
 						});
 					}
-					else if (command[0].equals("Unlock")){
+					else if (command[0].equals("UNLOCK")){
 						Display.getDefault().asyncExec(new Runnable() {
 							
 							@Override
@@ -130,7 +130,7 @@ public class Client extends Thread{
 							}
 						});
 					}
-					else if (command[0].equals("Res")){
+					else if (command[0].equals("RES")){
 						con = command[1];
 						con2 = command[2];
 						System.out.println(con + " " + con2);
@@ -152,7 +152,7 @@ public class Client extends Thread{
 								
 								@Override
 								public void run() {
-									gameWindow.labelMessage.setText("You won! Your score was: " + con + " against: " + con2 + ".");									
+									gameWindow.labelMessage.setText("You lose! Your score was: " + con + " against: " + con2 + ".");									
 								}
 								
 								});
@@ -162,7 +162,7 @@ public class Client extends Thread{
 									
 								@Override
 								public void run() {
-									gameWindow.labelMessage.setText("You won! Your score was: " + con + " against: " + con2 + ".");									
+									gameWindow.labelMessage.setText("You tied! Your score was: " + con + " against: " + con2 + ".");									
 								}
 									
 							});
@@ -176,7 +176,7 @@ public class Client extends Thread{
 							}
 						});
 					}
-					else if (command[0].equals("Score")){
+					else if (command[0].equals("SCORE")){
 						con = command[1];
 						Display.getDefault().asyncExec(new Runnable() {
 							
@@ -186,7 +186,7 @@ public class Client extends Thread{
 							}
 						});
 					}
-					else if (command[0].equals("Play")){
+					else if (command[0].equals("PLAY")){
 						command = message.split(",");
 						con = command[3];
 						Display.getDefault().asyncExec(new Runnable() {
@@ -197,7 +197,7 @@ public class Client extends Thread{
 							}
 						});
 					}
-					else if (command[0].equals("Kill")){
+					else if (command[0].equals("KILL")){
 						System.out.println("Game is over, someone left the game.");
 						System.exit(1);
 					}
@@ -209,7 +209,13 @@ public class Client extends Thread{
 			catch (IOException e){
 				//gameWindow.labelMessage.setText(serverError);
 				System.out.println("Connection failed.");
-				System.exit(1);
+				Display.getDefault().asyncExec(new Runnable() {
+					
+					@Override
+					public void run() {
+						gameWindow.labelMessage.setText("Server not found!");								
+					}
+				});
 			}
 		}
 		

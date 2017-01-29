@@ -1,5 +1,6 @@
 package data;
 
+import java.util.Arrays;
 import java.util.Random;
 
 import org.eclipse.swt.custom.CLabel;
@@ -17,8 +18,8 @@ public class Roll {
     private int[] value;
     private int[] sorted = new int[5];
     private boolean clicked1;
-    private boolean clicked2 = true;
-    private boolean clicked3 = true;
+    private boolean clicked2;
+    private boolean clicked3;
     private boolean clicked4;
     private boolean clicked5;
 
@@ -201,12 +202,15 @@ public class Roll {
     	}
     }
     
-   /*public static void main(String []args){
+   public static void main(String []args){
        
        Roll roll = new Roll();
        Game game = new Game();
-       for (int i = 0; i <3; i++){
        roll.rollDice();
+       String message = Arrays.toString(roll.dice);
+       System.out.println(message);
+       message = message.replaceAll(" ", "").replace("[", "").replace("]", "");
+       System.out.println(message);
        roll.valueCounter(roll.dice);   
        //roll.bubbleSort();
        System.out.println("Sorted 1: " + roll.sorted[0] + " " + roll.sorted[1] + " " + roll.sorted[2] + " " + roll.sorted[3] + " " + roll.sorted[4]);
@@ -239,9 +243,8 @@ public class Roll {
        System.out.println("Large Straight: " + large);
        System.out.println("YAHTZEE: " + yahtzee);
        System.out.println("Chance: " + chance);
-       }
        
-   }*/ 
+   }
 
 
     

@@ -9,6 +9,7 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 
 import java.net.Socket;
+import java.util.Arrays;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
@@ -41,6 +42,8 @@ public class GameWindow {
 	int rolls = 0;
 	private final String serverError = "Server not found! Please try again later...";
 	private String opponent;
+	private String dice;
+	private String value;
 	
 	/**
 	 * Metoda pro nastavení bodù do promìnných, deaktivace a aktivace tlaèítek, nastavení hodù na 0 a odeslání zprávy na server.
@@ -72,8 +75,8 @@ public class GameWindow {
 		radio.setSelection(false);
 		buttonPlay.setEnabled(false);
 		rolls = 0;
-		send.sendMessage("Play," + number + "," + score + "," + message, labelMessage, serverError);
-		System.out.println("Play," + number + "," + score + "," + player.getName() + " played " + score + " on " + number + ".");
+		send.sendMessage("PLAY," + number + "," + score + "," + message + "," + dice, labelMessage, serverError);
+		System.out.println("PLAY," + number + "," + score + "," + player.getName() + " played " + score + " on " + number + ".");
 	}
 	
 	/**
@@ -163,7 +166,7 @@ public class GameWindow {
 		finally {
 			display.dispose();
 		}
-		send.sendMessage("Kill,Right,Now,Dude", labelMessage, "Server not found! Please try again later...");
+		send.sendMessage("KILL,SERVER,RIGHT,NOW", labelMessage, "Server not found! Please try again later...");
 		System.exit(0);
 	}
 
@@ -506,6 +509,10 @@ public class GameWindow {
 				roll.dicePicture(roll.getDice(), 3, dice4);
 				roll.dicePicture(roll.getDice(), 4, dice5);
 				roll.valueCounter(roll.getDice());
+				dice = Arrays.toString(roll.getDice());
+				dice = dice.replaceAll(" ", "").replace("[", "").replace("]", "");
+				value = Arrays.toString(roll.getValue());
+				value = value.replaceAll(" ", "").replace("[", "").replace("]", "");
 				buttonPlay.setEnabled(true);
 				rolls++;
 				if (rolls == 3){
@@ -656,9 +663,7 @@ public class GameWindow {
 			
 			@Override
 			public void mouseDown(MouseEvent arg0) {
-				if (player.getTurn() == 13){
-					shlYahtzee.close();					
-				}
+				shlYahtzee.dispose();					
 				login = new Login(shlYahtzee, SWT.NONE);
 				login.open();
 			}
@@ -677,7 +682,7 @@ public class GameWindow {
 			
 			@Override
 			public void mouseDown(MouseEvent arg0) {
-				send.sendMessage("KILL,RIGHT,NOW,DUDE", labelMessage, "Server not found! Please try again later...");
+				send.sendMessage("KILL,SERVER,RIGHT,NOW", labelMessage, "Server not found! Please try again later...");
 				System.exit(1);
 			}
 			@Override
