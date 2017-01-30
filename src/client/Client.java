@@ -43,25 +43,18 @@ public class Client extends Thread{
 			}
 		}
 		
-		/*public void sendMessage(String message, Label label, String error){
-			try {
-				output = new PrintWriter(socket.getOutputStream());
-				output.write(message);
-			} catch (IOException e) {
-				label.setText(error);
-			} catch (NullPointerException n){
-				label.setText(error);
-			}
-			output.flush();
-		}*/
-		
+		/**
+		 * Metoda pro přijetí zprávy ze serveru.
+		 * @param label Label v Game Window nebo Login, do kterého se otiskne chyba.
+		 * @param error Chybové hlášení
+		 * @return Vrací přijatou zprávu.
+		 */
 		public String recieveMessage(Label label, String error){
 			char[] buffer = new char[128];
 			String message = "";
 			try {
 				input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				input.read(buffer);
-				//System.out.println(buffer);
 				message = String.copyValueOf(buffer);
 			} catch (IOException e) {
 				label.setText(error);
@@ -69,11 +62,11 @@ public class Client extends Thread{
 			return message;
 		}
 		
+		/**
+		 * Metoda run v tomto vlákně. Přijímá zprávy od serveru, když nějaké přicházejí.
+		 */
 		public void run(){
-			//myThread();
 			System.out.println("I'm running!");
-			//sendMessage("Init,", null, serverError);
-			//System.out.println("Message sent.");
 			char[] buffer = new char[128];
 			String message;
 			String [] command = null;
@@ -89,7 +82,6 @@ public class Client extends Thread{
 					command = message.split(",");	
 					
 				
-					//System.out.println("I'm running!");
 					if (command[0].equals("INIT")){
 						player = new Player(command[1]);
 						con = command[2];
@@ -102,13 +94,8 @@ public class Client extends Thread{
 								gameWindow = new GameWindow(socket, player, con);
 								gameWindow.socket = socket;
 								gameWindow.open();
-								//gameWindow.labelNick2_1.setText(con);	
 							}
 						});
-						//window = new Window(socket);
-						//System.out.println(command[1]);
-						//System.out.println(command[0]);
-						//buffer = null;
 					}
 					else if (command[0].equals("LOCK")){
 						Display.getDefault().asyncExec(new Runnable() {
@@ -126,7 +113,6 @@ public class Client extends Thread{
 							@Override
 							public void run() {
 								gameWindow.buttonRoll.setEnabled(true);
-								//gameWindow.labelMessage.setText("");
 							}
 						});
 					}
@@ -172,7 +158,7 @@ public class Client extends Thread{
 							@Override
 							public void run() {
 								gameWindow.buttonRoll.setEnabled(false);
-								player.setTurn(13);
+								gameWindow.buttonNewGame.setVisible(true);
 							}
 						});
 					}
@@ -198,8 +184,30 @@ public class Client extends Thread{
 						});
 					}
 					else if (command[0].equals("KILL")){
-						System.out.println("Game is over, someone left the game.");
-						System.exit(1);
+						if (command[1].equals("NOW")){
+							System.out.println("Your opponent forfeited. Game over.");
+							Display.getDefault().asyncExec(new Runnable() {
+							
+								@Override
+								public void run() {
+									gameWindow.labelMessage.setText("Your opponent forfeited. Game over.");
+									gameWindow.buttonRoll.setEnabled(false);
+									gameWindow.buttonPlay.setEnabled(false);
+									gameWindow.buttonNewGame.setVisible(true);
+								}
+							});
+						}
+						else if (command[1].equals("CHEAT")){
+							Display.getDefault().asyncExec(new Runnable() {
+								
+								@Override
+								public void run() {
+									gameWindow.labelMessage.setText("You cheated! Game over. Please quit.");
+									gameWindow.buttonRoll.setEnabled(false);
+									gameWindow.buttonPlay.setEnabled(false);
+								}
+							});
+						}
 					}
 					for(int i=0; i<buffer.length; i++){
 						buffer[i] = 0;
@@ -207,7 +215,6 @@ public class Client extends Thread{
 				}
 			}
 			catch (IOException e){
-				//gameWindow.labelMessage.setText(serverError);
 				System.out.println("Connection failed.");
 				Display.getDefault().asyncExec(new Runnable() {
 					
@@ -218,33 +225,4 @@ public class Client extends Thread{
 				});
 			}
 		}
-		
-		/*public static void main(String[] args) {
-			Client client = new Client(null, null);
-			client.connect("10.0.0.2", null, null);
-			client.sendMessage("PeeTee", null, null);
-			String message = client.recieveMessage(null, null);
-			System.out.println(message);
-			
-			while(true){
-			client.sendMessage("Ahoj", null, null);
-			String message2 = client.recieveMessage(null, null);
-			System.out.println(message2);
-			}
-			
-			
-			client.connect("10.0.0.2", null, null);
-			client.sendMessage("Krek", null, null);
-			
-			client.sendMessage("Ahoj", null, null);
-			
-			String message1 = client.recieveMessage(null, null);
-			System.out.println(message1);
-			
-			
-			Thread thread1 = new Thread(client);
-			Thread thread2 = new Thread(client);
-			thread1.start();
-			thread2.start();
-		}*/
 }

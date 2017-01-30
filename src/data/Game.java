@@ -1,13 +1,16 @@
 package data;
 
 /**
- *
+ * Tato metoda vypoèítává body, pro jednotlivé kombinace.
  * @author Petr
  */
 public class Game {
 	
 	Roll roll = new Roll();
     
+	/**
+	 * Konstruktor tøídy.
+	 */
     public Game() {
     
     }

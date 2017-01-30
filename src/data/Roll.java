@@ -1,6 +1,5 @@
 package data;
 
-import java.util.Arrays;
 import java.util.Random;
 
 import org.eclipse.swt.custom.CLabel;
@@ -91,6 +90,9 @@ public class Roll {
 		
     }
     
+	/**
+	 * Vygeneruje pole hozených kostek.
+	 */
     public void rollDice(){
     	int[] dice2 = new int[5];
     	Random r = new Random();
@@ -124,14 +126,15 @@ public class Roll {
     	else {
     		dice2[4] = dice[4];
     	}
-    	//System.out.println("Pole 1: " + dice[0] + " " + dice[1] + " " + dice[2] + " " + dice[3] + " " + dice[4]);
     	dice = dice2;
     	sorted = dice2;
-    	//System.out.println("Sorted 1: " + sorted[0] + " " + sorted[1] + " " + sorted[2] + " " + sorted[3] + " " + sorted[4]);
-    	//System.out.println("Pole 2: " + dice2[0] + " " + dice2[1] + " " + dice2[2] + " " + dice2[3] + " " + dice2[4]);
-    	//System.out.println("Pole 1: " + dice[0] + " " + dice[1] + " " + dice[2] + " " + dice[3] + " " + dice[4]);
     }
     
+    /**
+     * Výpoèet toho, kolik kostek dané hodnoty se objevilo v poli.
+     * @param dice Vstupní pole.
+     * @return Vrací pole hodnot. 
+     */
     public int[] valueCounter(int[] dice){
         value = new int [6];
         int dice1 = 0;
@@ -172,6 +175,11 @@ public class Roll {
         return value;
     }
     
+    /**
+     * Bublinkové øazení.
+     * @param sorted Vstupní pole.
+     * @return Vrací seøazené pole.
+     */
     public int[] bubbleSort(int[] sorted){
         for (int i = 0;i < sorted.length - 1;i++){
             for (int j = 0;j < sorted.length - i - 1;j++){
@@ -185,6 +193,12 @@ public class Roll {
         return sorted;
     }
     
+    /**
+     * Metoda, která zobrazí v Game Window obrázky kostek, podle toho, jaké èíslo padlo. 
+     * @param dice Vstupní pole.
+     * @param i Poøadí èísla.
+     * @param label Label, kde se zobrazuje kostka.
+     */
     public void dicePicture(int[] dice, int i, CLabel label){
     	switch (dice[i]){
     	case 1: label.setBackground(SWTResourceManager.getImage(GameWindow.class, "/One.jpg"));
@@ -202,7 +216,7 @@ public class Roll {
     	}
     }
     
-   public static void main(String []args){
+   /*public static void main(String []args){
        
        Roll roll = new Roll();
        Game game = new Game();
@@ -244,7 +258,7 @@ public class Roll {
        System.out.println("YAHTZEE: " + yahtzee);
        System.out.println("Chance: " + chance);
        
-   }
+   }*/
 
 
     

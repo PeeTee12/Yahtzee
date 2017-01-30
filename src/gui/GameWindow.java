@@ -31,7 +31,7 @@ public class GameWindow {
 	Points points;
 	public Button buttonRoll;
 	public Button buttonNewGame;
-	Button buttonPlay;
+	public Button buttonPlay;
 	Send send;
 	public Socket socket;
 	public Label labelMessage;
@@ -74,70 +74,21 @@ public class GameWindow {
 		radio.setEnabled(false);
 		radio.setSelection(false);
 		buttonPlay.setEnabled(false);
+		buttonRoll.setEnabled(false);
 		rolls = 0;
 		send.sendMessage("PLAY," + number + "," + score + "," + message + "," + dice, labelMessage, serverError);
 		System.out.println("PLAY," + number + "," + score + "," + player.getName() + " played " + score + " on " + number + ".");
 	}
 	
 	/**
-	 * Metoda pro èekání až pøijde hráè na øadu.
-	 * @param player
-	 * @param hodit
-	 * @param play
-	 * @param dice1
-	 * @param dice2
-	 * @param dice3
-	 * @param dice4
-	 * @param dice5
-	 * @param label
+	 * Konstruktor tøídy pøedává argumenty socket, player a opponent, vytváøí nový objekt tøídy Send.
 	 */
-	
-	public void lockPlayer2(Player player, Button hodit, Button play, CLabel dice1, CLabel dice2, CLabel dice3, CLabel dice4, CLabel dice5, Label label){
-	
-			hodit.setVisible(false);
-			play.setVisible(false);
-			dice1.setVisible(false);
-			dice2.setVisible(false);
-			dice3.setVisible(false);
-			dice4.setVisible(false);
-			dice5.setVisible(false);
-			label.setVisible(true);
-	}
-	public void unlockPlayer2(Player player, Button hodit, Button play, CLabel dice1, CLabel dice2, CLabel dice3, CLabel dice4, CLabel dice5, Label label){
-		
-			hodit.setVisible(true);
-			play.setVisible(true);
-			dice1.setVisible(true);
-			dice2.setVisible(true);
-			dice3.setVisible(true);
-			dice4.setVisible(true);
-			dice5.setVisible(true);
-			label.setVisible(false);
-			player.setTurn(player.getTurn() + 1);
-	}
-	
-	public GameWindow(Socket socket, Player player, String opponent){
+ 	public GameWindow(Socket socket, Player player, String opponent){
 		this.player = player;
 		this.opponent = opponent;
 		this.socket = socket;
 		send = new Send(socket);
 	}
-
-	/**
-	 * Spuštìní aplikace.
-	 * @param args
-	 * @wbp.parser.entryPoint
-	 */
-	/*public static void main(String[] args) {
-		try {
-			GameWindow window = new GameWindow();
-			//window.open();
-			login = new Login(window.shlYahtzee, SWT.NONE, window);
-			login.open();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}*/
 
 	/**
 	 * Otevøení okna.
@@ -611,16 +562,7 @@ public class GameWindow {
 				}
 				
 				player.setTurn(player.getTurn() + 1);
-				/*if (points.getUppSub() > 62 && !player.isBonus()){
-					points.setScore(35);
-					points.setUppTotal(points.getUppSub() + 35);
-					labelBonus.setText("35");
-					player.setBonus(true);
-					message += " " + player.getName() + " just achieved bonus 35 points.";
-					send.sendMessage(message, labelMessage, labelBonus, serverError);
-					labelMessage.setText(client.recieveMessage(labelMessage, serverError));
-				}*/
-				
+						
 				if (labelMessage.getText() == serverError){
 					return;
 				}				
@@ -659,13 +601,19 @@ public class GameWindow {
 		buttonNewGame = new Button(shlYahtzee, SWT.NONE);
 		buttonNewGame.setBounds(824, 726, 75, 25);
 		buttonNewGame.setText("New Game");
+		buttonNewGame.setVisible(false);
 		buttonNewGame.addMouseListener(new MouseListener() {
 			
 			@Override
 			public void mouseDown(MouseEvent arg0) {
-				shlYahtzee.dispose();					
-				login = new Login(shlYahtzee, SWT.NONE);
-				login.open();
+				Display.getDefault().asyncExec(new Runnable() {
+					
+					@Override
+					public void run() {
+						Main.main(null);
+						shlYahtzee.dispose();
+					}
+				});
 			}
 			@Override
 			public void mouseUp(MouseEvent arg0) {	
