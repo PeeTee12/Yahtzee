@@ -319,66 +319,105 @@ public class GameWindow {
 		label1.setFont(SWTResourceManager.getFont("Microsoft Sans Serif", 25, SWT.BOLD));
 		label1.setAlignment(SWT.CENTER);
 		label1.setBounds(451, 124, 50, 35);
+		if (points.getOnes() !=0){
+			label1.setText(String.valueOf(points.getOnes()));
+		}
 		
 		final Label label2 = new Label(shlYahtzee, SWT.NONE);
 		label2.setFont(SWTResourceManager.getFont("Microsoft Sans Serif", 25, SWT.BOLD));
 		label2.setAlignment(SWT.CENTER);
 		label2.setBounds(451, 186, 50, 35);
+		if (points.getTwos() !=0){
+			label2.setText(String.valueOf(points.getTwos()));
+		}
 		
 		final Label label3 = new Label(shlYahtzee, SWT.NONE);
 		label3.setFont(SWTResourceManager.getFont("Microsoft Sans Serif", 25, SWT.BOLD));
 		label3.setAlignment(SWT.CENTER);
 		label3.setBounds(451, 248, 50, 35);
+		if (points.getThrees() !=0){
+			label3.setText(String.valueOf(points.getThrees()));
+		}
 		
 		final Label label4 = new Label(shlYahtzee, SWT.NONE);
 		label4.setFont(SWTResourceManager.getFont("Microsoft Sans Serif", 25, SWT.BOLD));
 		label4.setAlignment(SWT.CENTER);
 		label4.setBounds(451, 310, 50, 35);
+		if (points.getFours() !=0){
+			label4.setText(String.valueOf(points.getFours()));
+		}
 		
 		final Label label5 = new Label(shlYahtzee, SWT.NONE);
 		label5.setFont(SWTResourceManager.getFont("Microsoft Sans Serif", 25, SWT.BOLD));
 		label5.setAlignment(SWT.CENTER);
 		label5.setBounds(451, 372, 50, 35);
+		if (points.getFives() !=0){
+			label5.setText(String.valueOf(points.getFives()));
+		}
 		
 		final Label label6 = new Label(shlYahtzee, SWT.NONE);
 		label6.setFont(SWTResourceManager.getFont("Microsoft Sans Serif", 25, SWT.BOLD));
 		label6.setAlignment(SWT.CENTER);
 		label6.setBounds(451, 434, 50, 35);
+		if (points.getSixes() !=0){
+			label6.setText(String.valueOf(points.getSixes()));
+		}
 		
 		final Label label3K = new Label(shlYahtzee, SWT.NONE);
 		label3K.setFont(SWTResourceManager.getFont("Microsoft Sans Serif", 25, SWT.BOLD));
 		label3K.setAlignment(SWT.CENTER);
 		label3K.setBounds(963, 124, 50, 35);
+		if (points.getThreeK() !=0){
+			label3K.setText(String.valueOf(points.getThreeK()));
+		}
 		
 		final Label label4K = new Label(shlYahtzee, SWT.NONE);
 		label4K.setFont(SWTResourceManager.getFont("Microsoft Sans Serif", 25, SWT.BOLD));
 		label4K.setAlignment(SWT.CENTER);
 		label4K.setBounds(963, 186, 50, 35);
+		if (points.getFourK() !=0){
+			label4K.setText(String.valueOf(points.getFourK()));
+		}
 		
 		final Label labelFull = new Label(shlYahtzee, SWT.NONE);
 		labelFull.setFont(SWTResourceManager.getFont("Microsoft Sans Serif", 25, SWT.BOLD));
 		labelFull.setAlignment(SWT.CENTER);
 		labelFull.setBounds(963, 248, 50, 35);
+		if (points.getFull() !=0){
+			labelFull.setText(String.valueOf(points.getFull()));
+		}
 		
 		final Label labelSmall = new Label(shlYahtzee, SWT.NONE);
 		labelSmall.setFont(SWTResourceManager.getFont("Microsoft Sans Serif", 25, SWT.BOLD));
 		labelSmall.setAlignment(SWT.CENTER);
 		labelSmall.setBounds(963, 310, 50, 35);
+		if (points.getSmall() !=0){
+			labelSmall.setText(String.valueOf(points.getSmall()));
+		}
 		
 		final Label labelLarge = new Label(shlYahtzee, SWT.NONE);
 		labelLarge.setFont(SWTResourceManager.getFont("Microsoft Sans Serif", 25, SWT.BOLD));
 		labelLarge.setAlignment(SWT.CENTER);
 		labelLarge.setBounds(963, 374, 50, 35);
+		if (points.getLarge() !=0){
+			labelLarge.setText(String.valueOf(points.getLarge()));
+		}
 		
 		final Label labelY = new Label(shlYahtzee, SWT.NONE);
 		labelY.setFont(SWTResourceManager.getFont("Microsoft Sans Serif", 25, SWT.BOLD));
 		labelY.setAlignment(SWT.CENTER);
 		labelY.setBounds(963, 434, 50, 35);
+		if (points.getYahtzee() !=0){
+			labelY.setText(String.valueOf(points.getYahtzee()));
+		}
 		
 		final Label labelC = new Label(shlYahtzee, SWT.NONE);
 		labelC.setFont(SWTResourceManager.getFont("Microsoft Sans Serif", 25, SWT.BOLD));
 		labelC.setAlignment(SWT.CENTER);
 		labelC.setBounds(963, 496, 50, 35);
+		if (points.getChance() !=0){
+			labelC.setText(String.valueOf(points.getChance()));
+		}
 		
 		final Label labelPoints1 = new Label(shlYahtzee, SWT.NONE);
 		labelPoints1.setForeground(SWTResourceManager.getColor(255, 255, 255));
