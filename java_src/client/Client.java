@@ -96,6 +96,7 @@ public class Client extends Thread{
 							player = new Player(command[2], server, port);
 							con = command[3];
 							points = new Points(command[4], command[5], command[6], command[7], command[8], command[9], command[10], command[11], command[12], command[13], command[14], command[15], command[16]);
+							points.setScore(Integer.parseInt(command[17]));
 							Display.getDefault().asyncExec(new Runnable() {
 								
 								@Override
@@ -225,7 +226,7 @@ public class Client extends Thread{
 							
 								@Override
 								public void run() {
-									gameWindow.labelMessage.setText("Your opponent forfeited. Game over.");
+									gameWindow.labelMessage.setText("Your opponent left. Please wait...");
 									gameWindow.buttonRoll.setEnabled(false);
 									gameWindow.buttonPlay.setEnabled(false);
 									gameWindow.buttonNewGame.setVisible(true);
