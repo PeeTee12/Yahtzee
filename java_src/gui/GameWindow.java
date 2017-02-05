@@ -319,7 +319,8 @@ public class GameWindow {
 		label1.setFont(SWTResourceManager.getFont("Microsoft Sans Serif", 25, SWT.BOLD));
 		label1.setAlignment(SWT.CENTER);
 		label1.setBounds(451, 124, 50, 35);
-		if (points.getOnes() != 0){
+		if (points.getOnes() > 0){
+			System.out.println(points.getOnes());
 			label1.setText(String.valueOf(points.getOnes()));
 		}
 		
