@@ -78,8 +78,8 @@ public class GameWindow {
 		buttonPlay.setEnabled(false);
 		buttonRoll.setEnabled(false);
 		rolls = 0;
-		send.sendMessage("PLAY," + number + "," + score + "," + message + "," + dice, labelMessage, serverError);
-		//System.out.println("PLAY," + number + "," + score + "," + player.getName() + " played " + score + " on " + number + ".");
+		send.sendMessage("PLAY," + number + "," + score + "," + message/* + "," + dice*/, labelMessage, serverError);
+		System.out.println("PLAY," + number + "," + score + "," + player.getName() + " played " + score + " on " + number + ".");
 	}
 	
 	/**
@@ -319,9 +319,10 @@ public class GameWindow {
 		label1.setFont(SWTResourceManager.getFont("Microsoft Sans Serif", 25, SWT.BOLD));
 		label1.setAlignment(SWT.CENTER);
 		label1.setBounds(451, 124, 50, 35);
-		if (points.getOnes() > 0){
-			System.out.println(points.getOnes());
+		if (points.getOnes() != 0){
 			label1.setText(String.valueOf(points.getOnes()));
+			radio1.setEnabled(false);
+			points.setUppSub(points.getOnes());
 		}
 		
 		final Label label2 = new Label(shlYahtzee, SWT.NONE);
@@ -330,6 +331,8 @@ public class GameWindow {
 		label2.setBounds(451, 186, 50, 35);
 		if (points.getTwos() != 0){
 			label2.setText(String.valueOf(points.getTwos()));
+			radio2.setEnabled(false);
+			points.setUppSub(points.getTwos());
 		}
 		
 		final Label label3 = new Label(shlYahtzee, SWT.NONE);
@@ -338,6 +341,8 @@ public class GameWindow {
 		label3.setBounds(451, 248, 50, 35);
 		if (points.getThrees() != 0){
 			label3.setText(String.valueOf(points.getThrees()));
+			radio3.setEnabled(false);
+			points.setUppSub(points.getThrees());
 		}
 		
 		final Label label4 = new Label(shlYahtzee, SWT.NONE);
@@ -346,6 +351,8 @@ public class GameWindow {
 		label4.setBounds(451, 310, 50, 35);
 		if (points.getFours() != 0){
 			label4.setText(String.valueOf(points.getFours()));
+			radio4.setEnabled(false);
+			points.setUppSub(points.getFours());
 		}
 		
 		final Label label5 = new Label(shlYahtzee, SWT.NONE);
@@ -354,6 +361,8 @@ public class GameWindow {
 		label5.setBounds(451, 372, 50, 35);
 		if (points.getFives() != 0){
 			label5.setText(String.valueOf(points.getFives()));
+			radio5.setEnabled(false);
+			points.setUppSub(points.getFives());
 		}
 		
 		final Label label6 = new Label(shlYahtzee, SWT.NONE);
@@ -362,6 +371,8 @@ public class GameWindow {
 		label6.setBounds(451, 434, 50, 35);
 		if (points.getSixes() != 0){
 			label6.setText(String.valueOf(points.getSixes()));
+			radio6.setEnabled(false);
+			points.setUppSub(points.getSixes());
 		}
 		
 		final Label label3K = new Label(shlYahtzee, SWT.NONE);
@@ -370,6 +381,8 @@ public class GameWindow {
 		label3K.setBounds(963, 124, 50, 35);
 		if (points.getThreeK() != 0){
 			label3K.setText(String.valueOf(points.getThreeK()));
+			radio3K.setEnabled(false);
+			points.setLowTotal(points.getThreeK());
 		}
 		
 		final Label label4K = new Label(shlYahtzee, SWT.NONE);
@@ -378,6 +391,8 @@ public class GameWindow {
 		label4K.setBounds(963, 186, 50, 35);
 		if (points.getFourK() != 0){
 			label4K.setText(String.valueOf(points.getFourK()));
+			radio4K.setEnabled(false);
+			points.setLowTotal(points.getFourK());
 		}
 		
 		final Label labelFull = new Label(shlYahtzee, SWT.NONE);
@@ -386,6 +401,8 @@ public class GameWindow {
 		labelFull.setBounds(963, 248, 50, 35);
 		if (points.getFull() != 0){
 			labelFull.setText(String.valueOf(points.getFull()));
+			radioFull.setEnabled(false);
+			points.setLowTotal(points.getFull());
 		}
 		
 		final Label labelSmall = new Label(shlYahtzee, SWT.NONE);
@@ -394,6 +411,8 @@ public class GameWindow {
 		labelSmall.setBounds(963, 310, 50, 35);
 		if (points.getSmall() != 0){
 			labelSmall.setText(String.valueOf(points.getSmall()));
+			radioSmall.setEnabled(false);
+			points.setLowTotal(points.getSmall());
 		}
 		
 		final Label labelLarge = new Label(shlYahtzee, SWT.NONE);
@@ -402,6 +421,8 @@ public class GameWindow {
 		labelLarge.setBounds(963, 374, 50, 35);
 		if (points.getLarge() != 0){
 			labelLarge.setText(String.valueOf(points.getLarge()));
+			radioLarge.setEnabled(false);
+			points.setLowTotal(points.getLarge());
 		}
 		
 		final Label labelY = new Label(shlYahtzee, SWT.NONE);
@@ -410,6 +431,8 @@ public class GameWindow {
 		labelY.setBounds(963, 434, 50, 35);
 		if (points.getYahtzee() != 0){
 			labelY.setText(String.valueOf(points.getYahtzee()));
+			radioY.setEnabled(false);
+			points.setLowTotal(points.getYahtzee());
 		}
 		
 		final Label labelC = new Label(shlYahtzee, SWT.NONE);
@@ -418,6 +441,8 @@ public class GameWindow {
 		labelC.setBounds(963, 496, 50, 35);
 		if (points.getChance() != 0){
 			labelC.setText(String.valueOf(points.getChance()));
+			radioC.setEnabled(false);
+			points.setLowTotal(points.getChance());
 		}
 		
 		final Label labelPoints1 = new Label(shlYahtzee, SWT.NONE);
@@ -436,6 +461,9 @@ public class GameWindow {
 		labelPoints2.setFont(SWTResourceManager.getFont("Microsoft Sans Serif", 40, SWT.BOLD));
 		labelPoints2.setAlignment(SWT.CENTER);
 		labelPoints2.setBounds(550, 10, 160, 66);
+		if (points.getOpponentScore() != 0){
+			labelPoints2.setText(String.valueOf(points.getOpponentScore()));
+		}
 		
 		Label labelNick1 = new Label(shlYahtzee, SWT.NONE);
 		labelNick1.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
@@ -458,6 +486,9 @@ public class GameWindow {
 		labelUppSub.setAlignment(SWT.CENTER);
 		labelUppSub.setFont(SWTResourceManager.getFont("Microsoft Sans Serif", 14, SWT.NORMAL));
 		labelUppSub.setBounds(451, 490, 50, 26);
+		if (points.getUppSub() != 0){
+			labelUppSub.setText(String.valueOf(points.getUppSub()));
+		}
 		
 		final Label labelBonus = new Label(shlYahtzee, SWT.NONE);
 		labelBonus.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
@@ -465,6 +496,11 @@ public class GameWindow {
 		labelBonus.setAlignment(SWT.CENTER);
 		labelBonus.setFont(SWTResourceManager.getFont("Microsoft Sans Serif", 14, SWT.NORMAL));
 		labelBonus.setBounds(451, 532, 50, 26);
+		if (points.getUppSub() > 62){
+			labelBonus.setText("35");
+			points.setUppTotal(points.getUppSub() + 35);
+			player.setBonus(true);
+		}
 		
 		final Label labelUppTotal = new Label(shlYahtzee, SWT.NONE);
 		labelUppTotal.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
@@ -472,6 +508,9 @@ public class GameWindow {
 		labelUppTotal.setAlignment(SWT.CENTER);
 		labelUppTotal.setFont(SWTResourceManager.getFont("Microsoft Sans Serif", 14, SWT.NORMAL));
 		labelUppTotal.setBounds(451, 573, 50, 26);
+		if (points.getUppTotal() != 0){
+			labelUppTotal.setText(String.valueOf(points.getUppTotal()));
+		}
 		
 		final Label labelLowTotal = new Label(shlYahtzee, SWT.NONE);
 		labelLowTotal.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
@@ -479,6 +518,9 @@ public class GameWindow {
 		labelLowTotal.setFont(SWTResourceManager.getFont("Microsoft Sans Serif", 14, SWT.NORMAL));
 		labelLowTotal.setAlignment(SWT.CENTER);
 		labelLowTotal.setBounds(963, 561, 50, 26);
+		if (points.getLowTotal() != 0){
+			labelLowTotal.setText(String.valueOf(points.getLowTotal()));
+		}
 		
 		labelMessage = new Label(shlYahtzee, SWT.NONE);
 		labelMessage.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
@@ -497,6 +539,10 @@ public class GameWindow {
 		buttonRoll.setFont(SWTResourceManager.getFont("Comic Sans MS", 14, SWT.NORMAL));
 		buttonRoll.setBounds(25, 635, 160, 40);
 		buttonRoll.setText("Roll");
+		if (!player.isMyTurn()){
+			buttonRoll.setEnabled(false);
+			labelMessage.setText("Opponent's turn.");
+		}
 		buttonRoll.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseDown(MouseEvent arg0) {

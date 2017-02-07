@@ -14,7 +14,7 @@ public class Player {
     private boolean bonus;
     private int turn;
     private int index;
-    private boolean myTurn;
+    private boolean myTurn = true;
 
     public Player(String name, String server, int port) {
     	this.name =  name;

@@ -26,6 +26,8 @@ public class Login extends Dialog {
 	private Text textNick;
 	private Text textServer;
 	public Label labelNick;
+	public Label labelWaiting;
+	public Button buttonPlay;
 	private String name;
 	private String server;
 	private int port;
@@ -116,10 +118,10 @@ public class Login extends Dialog {
 		labelPort.setBounds(284, 107, 76, 18);
 		labelPort.setText("Enter port");
 		
-		final Label labelWaiting = new Label(shellLogin, SWT.NONE);
+		labelWaiting = new Label(shellLogin, SWT.NONE);
 		labelWaiting.setBounds(10, 229, 332, 18);
 		
-		final Button buttonPlay = new Button(shellLogin, SWT.NONE);
+		buttonPlay = new Button(shellLogin, SWT.NONE);
 		buttonPlay.setBounds(163, 187, 91, 36);
 		buttonPlay.setText("Play");
 		buttonPlay.addMouseListener(new MouseListener() {

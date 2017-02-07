@@ -21,6 +21,7 @@ public class Points {
 	private int uppTotal;
 	private int lowTotal;
 	private int score;
+	private int opponentScore;
 	
 	Client client;
 	
@@ -176,5 +177,15 @@ public class Points {
 	public void setScore(int points){
 		this.score += points;
 	}
+
+	public int getOpponentScore() {
+		return opponentScore;
+	}
+
+	public void setOpponentScore(int opponentScore) {
+		this.opponentScore += opponentScore;
+	}
+	
+	
 
 }

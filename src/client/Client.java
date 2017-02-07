@@ -24,6 +24,7 @@ public class Client extends Thread{
 		Player player;
 		Roll roll;
 		Points points;
+		Send send;
 		private String con;
 		private String con2;
 		private final String serverError = "Server not found! Please try again later...";
@@ -96,8 +97,13 @@ public class Client extends Thread{
 							player = new Player(command[2], server, port);
 							con = command[3];
 							points = new Points(command[4], command[5], command[6], command[7], command[8], command[9], command[10], command[11], command[12], command[13], command[14], command[15], command[16]);
-							System.out.println(points.getOnes());
 							points.setScore(Integer.parseInt(command[17]));
+							points.setOpponentScore(Integer.parseInt(command[18]));
+							if (command[19].equals("1")){
+								player.setMyTurn(true);
+							} else {
+								player.setMyTurn(false);
+							}
 							Display.getDefault().asyncExec(new Runnable() {
 								
 								@Override
@@ -147,6 +153,7 @@ public class Client extends Thread{
 						});
 					}
 					else if (command[0].equals("RES")){
+						send = new Send(socket);
 						con = command[1];
 						con2 = command[2];
 						int score1 = Integer.parseInt(command[1]);
@@ -190,9 +197,11 @@ public class Client extends Thread{
 								gameWindow.buttonNewGame.setVisible(true);
 							}
 						});
+						//send.sendMessage("KILL", null, null);
 					}
 					else if (command[0].equals("SCORE")){
 						con = command[1];
+						points.setOpponentScore(Integer.parseInt(command[1]));
 						Display.getDefault().asyncExec(new Runnable() {
 							
 							@Override
@@ -223,7 +232,7 @@ public class Client extends Thread{
 					}
 					else if (command[0].equals("KILL")){
 						if (command[1].equals("NOW")){
-							Display.getDefault().asyncExec(new Runnable() {
+							/*Display.getDefault().asyncExec(new Runnable() {
 							
 								@Override
 								public void run() {
@@ -232,19 +241,19 @@ public class Client extends Thread{
 									gameWindow.buttonPlay.setEnabled(false);
 									gameWindow.buttonNewGame.setVisible(true);
 								}
-							});
+							});*/
 						}
 						else if (command[1].equals("CHEAT")){
 							Display.getDefault().asyncExec(new Runnable() {
 								
 								@Override
 								public void run() {
-									gameWindow.labelMessage.setText("You cheated! Game over. Please quit.");
+									gameWindow.labelMessage.setText("You cheated! Please quit.");
 									gameWindow.buttonRoll.setEnabled(false);
 									gameWindow.buttonPlay.setEnabled(false);
 								}
 							});
-							socket.close();
+							//socket.close();
 						}
 					}
 					for(int i=0; i<buffer.length; i++){
